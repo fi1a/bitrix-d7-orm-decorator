@@ -33,7 +33,7 @@
     }
   },
   "scripts": {
-    "fl:lint": "phpcs --cache=build/cache/phpcs.cache",
+    "fl:lint": "phpcs --cache=build/cache/phpcs.cache --ignore=tests/autoload.php",
     "fl:phpcbf": "phpcbf --cache=build/cache/phpcs.cache"
   },
   "scripts-descriptions": {
