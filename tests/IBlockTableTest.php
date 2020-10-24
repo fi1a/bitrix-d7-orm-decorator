@@ -11,12 +11,13 @@ use Bitrix\Main\Context;
 use Bitrix\Main\Loader;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockWithoutObjectTable;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\ATableDecorator
  */
-class ATableDecoratorTest extends TestCase
+class IBlockTableTest extends TestCase
 {
     /**
      * @var string
@@ -126,6 +127,25 @@ class ATableDecoratorTest extends TestCase
          */
         $item = $iterator->fetchObject();
         $this->assertInstanceOf(ElementIBlock::class, $item);
+        $this->assertEquals('element-2', $item['CODE']);
+    }
+
+    /**
+     * Тестирование метода getList
+     *
+     * @depends testAdd
+     */
+    public function testGetListWithoutObject(): void
+    {
+        $iterator = ElementIBlockWithoutObjectTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf('Bitrix\Iblock\Elements\EO_ElementIBlock', $item);
         $this->assertEquals('element-2', $item['CODE']);
     }
 }
