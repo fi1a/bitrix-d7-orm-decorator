@@ -14,33 +14,6 @@ use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 class IBlockEntityObjectTest extends IBlockTestCase
 {
     /**
-     * Добавление элементов в инфоблок
-     *
-     * @throws \Exception
-     */
-    public function testAdd(): void
-    {
-        $result = ElementIBlockTable::add([
-            'ACTIVE' => 'Y',
-            'NAME' => 'Element 1',
-            'CODE' => 'element-1',
-        ]);
-        $this->assertTrue($result->isSuccess());
-        $result = ElementIBlockTable::add([
-            'ACTIVE' => 'Y',
-            'NAME' => 'Element 2',
-            'CODE' => 'element-2',
-        ]);
-        $this->assertTrue($result->isSuccess());
-        $result = ElementIBlockTable::add([
-            'ACTIVE' => 'Y',
-            'NAME' => 'Element 3',
-            'CODE' => 'element-3',
-        ]);
-        $this->assertTrue($result->isSuccess());
-    }
-
-    /**
      * @depends testAdd
      */
     public function testGet(): void
