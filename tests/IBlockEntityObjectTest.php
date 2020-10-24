@@ -14,9 +14,11 @@ use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 class IBlockEntityObjectTest extends IBlockTestCase
 {
     /**
+     * Тестирование __call
+     *
      * @depends testAdd
      */
-    public function testGet(): void
+    public function testCall(): void
     {
         $iterator = ElementIBlockTable::getList([
             'filter' => [
@@ -31,5 +33,15 @@ class IBlockEntityObjectTest extends IBlockTestCase
         $item = $iterator->fetchObject();
         $this->assertInstanceOf(ElementIBlock::class, $item);
         $this->assertEquals('element-2', $item->get('CODE'));
+    }
+
+    /**
+     * Тестирование __callStatic
+     *
+     * @depends testAdd
+     */
+    public function testCallStatic(): void
+    {
+        $this->assertEquals('Code', ElementIBlock::sysFieldToMethodCase('CODE'));
     }
 }
