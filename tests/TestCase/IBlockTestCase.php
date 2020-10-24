@@ -1,0 +1,84 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Fi1a\Unit\BitrixD7OrmDecorator\TestCase;
+
+use Bitrix\Iblock\IblockTable;
+use Bitrix\Iblock\TypeLanguageTable;
+use Bitrix\Iblock\TypeTable;
+use Bitrix\Main\Context;
+use Bitrix\Main\Loader;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * Тесты iblock orm
+ */
+class IBlockTestCase extends TestCase
+{
+    /**
+     * @var string
+     */
+    private static $iblockTypeId = '';
+
+    /**
+     * @var int
+     */
+    private static $iblockId = null;
+
+    /**
+     * До начала вызова тестов
+     */
+    public static function setUpBeforeClass(): void
+    {
+        Loader::includeModule('iblock');
+        $typeResult = TypeTable::add([
+            'ID' => 'BitrixD7OrmDecorator',
+            'SECTIONS' => 'Y',
+        ]);
+        if (!$typeResult->isSuccess()) {
+            throw new \ErrorException();
+        }
+        self::$iblockTypeId = $typeResult->getId();
+        TypeLanguageTable::add([
+            'IBLOCK_TYPE_ID' => self::$iblockTypeId,
+            'LANGUAGE_ID' => 'ru',
+            'NAME' => 'BitrixD7OrmDecorator',
+        ]);
+        TypeLanguageTable::add([
+            'IBLOCK_TYPE_ID' => self::$iblockTypeId,
+            'LANGUAGE_ID' => 'en',
+            'NAME' => 'BitrixD7OrmDecorator',
+        ]);
+        $result = IblockTable::add([
+            'IBLOCK_TYPE_ID' => self::$iblockTypeId,
+            'LID' => Context::getCurrent()->getSite(),
+            'CODE' => 'BitrixD7OrmDecorator',
+            'API_CODE' => ElementIBlockTable::API_CODE,
+            'NAME' => 'BitrixD7OrmDecorator',
+            'ACTIVE' => 'Y',
+            'WORKFLOW' => 'N',
+        ]);
+        if (!$result->isSuccess()) {
+            throw new \ErrorException();
+        }
+        self::$iblockId = $result->getId();
+    }
+
+    /**
+     * После вызова тестов
+     */
+    public static function tearDownAfterClass(): void
+    {
+        if (!self::$iblockId || !self::$iblockTypeId) {
+            throw new \ErrorException();
+        }
+        foreach (ElementIBlockTable::getList()->fetchAll() as $item) {
+            ElementIBlockTable::delete($item['ID']);
+        }
+        IblockTable::delete(self::$iblockId);
+        TypeLanguageTable::deleteByIblockTypeId(self::$iblockTypeId);
+        TypeTable::delete(self::$iblockTypeId);
+    }
+}
