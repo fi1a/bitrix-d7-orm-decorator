@@ -41,4 +41,12 @@ class ElementIBlockTable extends ATableDecorator
 
         return $iblock->getEntityDataClass();
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected static function doGetEntityObjectDecoratorClass(): ?string
+    {
+        return ElementIBlock::class;
+    }
 }

@@ -9,6 +9,7 @@ use Bitrix\Iblock\TypeLanguageTable;
 use Bitrix\Iblock\TypeTable;
 use Bitrix\Main\Context;
 use Bitrix\Main\Loader;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use PHPUnit\Framework\TestCase;
 
@@ -120,7 +121,11 @@ class ATableDecoratorTest extends TestCase
             'count_total' => true,
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
-        $item = $iterator->fetch();
+        /**
+         * @var ElementIBlock $item
+         */
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf(ElementIBlock::class, $item);
         $this->assertEquals('element-2', $item['CODE']);
     }
 }
