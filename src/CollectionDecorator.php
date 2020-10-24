@@ -47,6 +47,9 @@ class CollectionDecorator implements ICollectionDecorator
      */
     public function offsetSet($offset, $value)
     {
+        if ($value instanceof IEntityObjectDecorator) {
+            $value = $value->getEntityObject();
+        }
         $this->add($value);
     }
 

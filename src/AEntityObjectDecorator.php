@@ -11,7 +11,7 @@ use Bitrix\Main\ORM\Objectify\EntityObject;
  *
  * @mixin EntityObject
  */
-abstract class AEntityObjectDecorator implements \ArrayAccess
+abstract class AEntityObjectDecorator implements IEntityObjectDecorator
 {
     /**
      * @var EntityObject
@@ -117,5 +117,13 @@ abstract class AEntityObjectDecorator implements \ArrayAccess
     public function offsetUnset($offset)
     {
         $this->object->offsetUnset($offset);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getEntityObject(): EntityObject
+    {
+        return $this->object;
     }
 }

@@ -30,4 +30,34 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertInstanceOf(CollectionDecorator::class, $collection);
         $this->assertCount(3, $collection->getAll());
     }
+
+    /**
+     * Тестирование offsetSet
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testOffsetSet(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-1',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertCount(1, $collection);
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $collection[] = $iterator->fetchObject();
+        $this->assertCount(2, $collection);
+    }
 }
