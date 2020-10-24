@@ -44,4 +44,30 @@ class IBlockEntityObjectTest extends IBlockTestCase
     {
         $this->assertEquals('Code', ElementIBlock::sysFieldToMethodCase('CODE'));
     }
+
+    /**
+     * Тестирование wakeUp
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUp(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        /**
+         * @var ElementIBlock $item
+         */
+        $item = ElementIBlock::wakeUp($row);
+        $this->assertInstanceOf(ElementIBlock::class, $item);
+        $this->assertEquals('element-2', $item->get('CODE'));
+    }
 }
