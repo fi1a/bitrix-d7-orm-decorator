@@ -70,4 +70,30 @@ class IBlockEntityObjectTest extends IBlockTestCase
         $this->assertInstanceOf(ElementIBlock::class, $item);
         $this->assertEquals('element-2', $item->get('CODE'));
     }
+
+    /**
+     * Тестирование offsetExists
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testOffsetExists(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        /**
+         * @var ElementIBlock $item
+         */
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf(ElementIBlock::class, $item);
+        $this->assertTrue(isset($item['CODE']));
+        $this->assertFalse(isset($item['UNKNOW']));
+    }
 }
