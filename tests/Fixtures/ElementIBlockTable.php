@@ -37,8 +37,6 @@ class ElementIBlockTable extends ATableDecorator
             ],
         ])->fetchObject();
 
-        $iblock->getEntityDataClass();
-
         return $iblock->getEntityDataClass();
     }
 

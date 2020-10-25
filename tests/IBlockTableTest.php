@@ -10,7 +10,7 @@ use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockWithoutObjectTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 
 /**
- * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\ATableDecorator
+ * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\ATableDecorator для iblock orm
  */
 class IBlockTableTest extends IBlockTestCase
 {
