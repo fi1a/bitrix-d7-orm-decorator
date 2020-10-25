@@ -10,7 +10,7 @@ use Closure;
 /**
  * Декоратор Bitrix\Main\ORM\Query\Result
  */
-class ResultDecorator
+class ResultDecorator implements IResultDecorator
 {
     /**
      * @var Result
