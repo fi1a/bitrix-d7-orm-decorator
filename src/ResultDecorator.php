@@ -15,17 +15,17 @@ class ResultDecorator
     /**
      * @var Result
      */
-    private $result;
+    protected $result;
 
     /**
      * @var string
      */
-    private $entityObjectClass;
+    protected $entityObjectClass;
 
     /**
      * @var string
      */
-    private $collectionClass;
+    protected $collectionClass;
 
     /**
      * Конструктор
