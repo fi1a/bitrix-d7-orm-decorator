@@ -87,7 +87,10 @@ class CollectionDecorator implements ICollectionDecorator
     public function offsetGet($offset)
     {
         $this->collection->offsetGet($offset);
+        // @codeCoverageIgnoreStart
     }
+
+    // @codeCoverageIgnoreEnd
 
     /**
      * Iterator implementation

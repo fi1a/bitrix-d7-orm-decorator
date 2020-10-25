@@ -99,4 +99,23 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->expectException(NotImplementedException::class);
         unset($collection[0]);
     }
+
+    /**
+     * Тестирование offsetGet
+     *
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testOffsetGet(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->expectException(NotImplementedException::class);
+        $collection[0];
+    }
 }
