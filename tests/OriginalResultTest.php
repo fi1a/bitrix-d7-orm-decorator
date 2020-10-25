@@ -6,12 +6,12 @@ namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorEntityObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
-use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\OriginalDecoratorTestCase;
+use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\OriginalTestCase;
 
 /**
  * Тестирование результата декоратора для 1С-Битрикс D7 ORM
  */
-class OriginalDecoratorResultTest extends OriginalDecoratorTestCase
+class OriginalResultTest extends OriginalTestCase
 {
     /**
      * Выбираем коллекцию

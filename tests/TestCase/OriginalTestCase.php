@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Тесты декоратора 1С-Битрикс D7 ORM
  */
-class OriginalDecoratorTestCase extends TestCase
+class OriginalTestCase extends TestCase
 {
     /**
      * До начала вызова тестов
