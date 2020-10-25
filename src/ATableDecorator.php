@@ -50,6 +50,16 @@ abstract class ATableDecorator implements ITableDecorator
     }
 
     /**
+     * @inheritDoc
+     */
+    public static function getById($id)
+    {
+        $class = static::getTableClass();
+
+        return static::getResultDecorator(call_user_func_array([$class, 'getById'], [$id]));
+    }
+
+    /**
      * Вызываем методы таблицы
      *
      * @param mixed[]  $arguments

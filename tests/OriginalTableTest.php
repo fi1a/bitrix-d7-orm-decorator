@@ -55,4 +55,32 @@ class OriginalTableTest extends OriginalTestCase
         $this->assertInstanceOf(OriginalEntityObject::class, $item);
         $this->assertEquals('element-2', $item['code']);
     }
+
+    /**
+     * Тестирование getById
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testGetById(): void
+    {
+        $iterator = OriginalDecoratorTable::getList([
+            'filter' => [
+                '=code' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        /**
+         * @var OriginalDecoratorEntityObject $item
+         */
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertEquals('element-2', $item['code']);
+        $itemById = OriginalDecoratorTable::getById($item->getId())->fetchObject();
+        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $itemById);
+        $this->assertEquals('element-2', $itemById['code']);
+    }
 }
