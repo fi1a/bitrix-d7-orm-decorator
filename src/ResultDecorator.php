@@ -84,14 +84,7 @@ class ResultDecorator
     {
         $sysAddActual = Closure::bind(
             function (AEntityObjectDecorator $object): void {
-                $primary = null;
-
-                if ($object->sysHasPrimary()) {
-                    $primary = $this->sysSerializePrimaryKey($object->primary);
-                } else {
-                    $primary = spl_object_hash($object);
-                }
-
+                $primary = $this->sysSerializePrimaryKey($object->primary);
                 $this->_objects[$primary] = $object;
             },
             $collection->getCollection(),
