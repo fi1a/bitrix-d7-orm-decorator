@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorEntityObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\OriginalTestCase;
 
@@ -38,9 +39,23 @@ class OriginalResultTest extends OriginalTestCase
     public function testCall(): void
     {
         $iterator = OriginalDecoratorTable::getList([
-            'select' => ['code'],
             'count_total' => true,
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
+    }
+
+    /**
+     * Тестирование fetchObject
+     *
+     * @depends testAdd
+     */
+    public function testFetchObject(): void
+    {
+        $iterator = OriginalDecoratorTable::getList([
+            'count_total' => true,
+            'limit' => 1,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $iterator->fetchObject());
     }
 }
