@@ -16,8 +16,6 @@ abstract class AIBlockTableDecorator extends ATableDecorator
 {
     /**
      * Возвращает название highloadblock
-     *
-     * @return string
      */
     abstract protected static function getApiCode(): string;
 

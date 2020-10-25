@@ -14,8 +14,6 @@ abstract class AHLTableDecorator extends ATableDecorator
 {
     /**
      * Возвращает название highloadblock
-     *
-     * @return string
      */
     abstract protected static function getName(): string;
 
