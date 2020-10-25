@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Fi1a\Unit\BitrixD7OrmDecorator\TestCase;
 
 use Bitrix\Main\Application;
-use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Тесты декоратора 1С-Битрикс D7 ORM
  */
-class OriginalTestCase extends TestCase
+class OriginalDecoratorTestCase extends TestCase
 {
     /**
      * До начала вызова тестов
@@ -19,8 +19,8 @@ class OriginalTestCase extends TestCase
     public static function setUpBeforeClass(): void
     {
         Application::getConnection()->createTable(
-            OriginalTable::getTableName(),
-            OriginalTable::getMap(),
+            OriginalDecoratorTable::getTableName(),
+            OriginalDecoratorTable::getMap(),
             ['id'],
             ['id']
         );
@@ -31,7 +31,7 @@ class OriginalTestCase extends TestCase
      */
     public static function tearDownAfterClass(): void
     {
-        Application::getConnection()->dropTable(OriginalTable::getTableName());
+        Application::getConnection()->dropTable(OriginalDecoratorTable::getTableName());
     }
 
     /**
@@ -39,15 +39,15 @@ class OriginalTestCase extends TestCase
      */
     public function testAdd(): void
     {
-        $result = OriginalTable::add([
+        $result = OriginalDecoratorTable::add([
             'code' => 'element-1',
         ]);
         $this->assertTrue($result->isSuccess());
-        $result = OriginalTable::add([
+        $result = OriginalDecoratorTable::add([
             'code' => 'element-2',
         ]);
         $this->assertTrue($result->isSuccess());
-        $result = OriginalTable::add([
+        $result = OriginalDecoratorTable::add([
             'code' => 'element-3',
         ]);
         $this->assertTrue($result->isSuccess());

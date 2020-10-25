@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator\Fixtures;
 
-use Bitrix\Main\Entity\DataManager;
+use Bitrix\Main\ORM\Data\DataManager;
 use Bitrix\Main\ORM\Fields\IntegerField;
 use Bitrix\Main\ORM\Fields\TextField;
 
