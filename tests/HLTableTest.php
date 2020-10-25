@@ -51,7 +51,16 @@ class HLTableTest extends HLTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $item = $iterator->fetchObject();
-        $this->assertInstanceOf('\EO_Hl', $item);
+        $this->assertInstanceOf('\\EO_' . HLTable::$hlName, $item);
         $this->assertEquals('element-2', $item['UF_CODE']);
+    }
+
+    /**
+     * Тестирование resetState
+     */
+    public function testResetState(): void
+    {
+        HLTable::resetState();
+        $this->assertTrue(true);
     }
 }

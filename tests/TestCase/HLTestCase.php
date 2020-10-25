@@ -9,6 +9,7 @@ use Bitrix\Highloadblock\HighloadBlockTable;
 use Bitrix\Main\Loader;
 use CUserTypeEntity;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutObjectTable;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,12 +28,17 @@ class HLTestCase extends TestCase
     public static function setUpBeforeClass(): void
     {
         Loader::IncludeModule('highloadblock');
+
+        HLTable::resetState();
+        HLWithoutObjectTable::resetState();
+        HLTable::$hlName = HLWithoutObjectTable::$hlName = 'Hl' . uniqid();
+
         $langs = [
             'ru' => 'HL',
             'en' => 'HL',
         ];
         $result = HighloadBlockTable::add([
-            'NAME' => 'Hl',
+            'NAME' => HLTable::$hlName,
             'TABLE_NAME' => 'fl_hl',
         ]);
         if ($result->isSuccess()) {
@@ -72,6 +78,7 @@ class HLTestCase extends TestCase
     {
         if (static::$hlId) {
             HighloadBlockTable::delete(static::$hlId);
+            static::$hlId = null;
         }
     }
 
@@ -91,6 +98,7 @@ class HLTestCase extends TestCase
         $result = HLTable::add([
             'UF_CODE' => 'element-3',
         ]);
+
         $this->assertTrue($result->isSuccess());
     }
 }

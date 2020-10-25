@@ -11,7 +11,7 @@ use Bitrix\Main\ORM\Query\Result;
  *
  * @mixin \Bitrix\Main\ORM\Data\DataManager
  */
-abstract class ATableDecorator
+abstract class ATableDecorator implements ITableDecorator
 {
     /**
      * Возвращает класс таблицы
@@ -46,7 +46,7 @@ abstract class ATableDecorator
     {
         $class = static::getTableClass();
 
-        return static::factoryResultDecorator(call_user_func_array([$class, 'getList'], [$parameters]));
+        return static::getResultDecorator(call_user_func_array([$class, 'getList'], [$parameters]));
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class ATableDecorator
      *
      * @return ResultDecorator|Result
      */
-    public static function factoryResultDecorator(Result $result)
+    public static function getResultDecorator(Result $result)
     {
         if (!static::doGetEntityObjectDecoratorClass()) {
             return $result;
@@ -91,5 +91,13 @@ abstract class ATableDecorator
         }
 
         return static::$tableClass;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function resetState(): void
+    {
+        static::$tableClass = null;
     }
 }

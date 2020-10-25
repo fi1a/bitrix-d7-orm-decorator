@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator\Fixtures;
 
-use EO_Hl;
 use Fi1a\BitrixD7OrmDecorator\AEntityObjectDecorator;
 
 /**
@@ -17,6 +16,6 @@ class HL extends AEntityObjectDecorator
      */
     protected function getEntityObjectClass(): string
     {
-        return EO_Hl::class;
+        return '\\EO_' . HLTable::$hlName;
     }
 }

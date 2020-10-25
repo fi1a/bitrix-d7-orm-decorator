@@ -54,4 +54,13 @@ class IBlockTableTest extends IBlockTestCase
         $this->assertInstanceOf('Bitrix\Iblock\Elements\EO_ElementIBlock', $item);
         $this->assertEquals('element-2', $item['CODE']);
     }
+
+    /**
+     * Тестирование resetState
+     */
+    public function testResetState(): void
+    {
+        ElementIBlockTable::resetState();
+        $this->assertTrue(true);
+    }
 }
