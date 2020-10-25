@@ -61,7 +61,10 @@ class CollectionDecorator implements ICollectionDecorator
     public function offsetExists($offset)
     {
         $this->collection->offsetExists($offset);
+        // @codeCoverageIgnoreStart
     }
+
+    // @codeCoverageIgnoreEnd
 
     /**
      * ArrayAccess implementation
@@ -71,7 +74,10 @@ class CollectionDecorator implements ICollectionDecorator
     public function offsetUnset($offset)
     {
         $this->collection->offsetUnset($offset);
+        // @codeCoverageIgnoreStart
     }
+
+    // @codeCoverageIgnoreEnd
 
     /**
      * ArrayAccess implementation
