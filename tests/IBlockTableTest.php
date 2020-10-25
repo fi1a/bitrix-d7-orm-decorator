@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Fi1a\BitrixD7OrmDecorator\Exception\ErrorException;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockUnknownTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockWithoutObjectTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 
@@ -57,10 +59,23 @@ class IBlockTableTest extends IBlockTestCase
 
     /**
      * Тестирование resetState
+     *
+     * @depends testAdd
      */
     public function testResetState(): void
     {
         ElementIBlockTable::resetState();
         $this->assertTrue(true);
+    }
+
+    /**
+     * Тестирование doGetTableClass
+     *
+     * @depends testAdd
+     */
+    public function testDoGetTableClassException(): void
+    {
+        $this->expectException(ErrorException::class);
+        ElementIBlockUnknownTable::getList();
     }
 }
