@@ -6,6 +6,7 @@ namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
 use Bitrix\Main\NotImplementedException;
 use Fi1a\BitrixD7OrmDecorator\CollectionDecorator;
+use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 
@@ -117,5 +118,28 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertInstanceOf(CollectionDecorator::class, $collection);
         $this->expectException(NotImplementedException::class);
         $collection[0];
+    }
+
+    /**
+     * Тестирование методов интерфейсов \Iterator и \Countable
+     *
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testIterator(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertEquals(3, $collection->count());
+        foreach ($collection as $item) {
+            $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        }
+        $this->assertNull($collection->key());
+        $collection->rewind();
+        $this->assertIsInt($collection->key());
     }
 }
