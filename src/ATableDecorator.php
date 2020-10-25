@@ -66,7 +66,7 @@ abstract class ATableDecorator implements ITableDecorator
     /**
      * Фабричный метод для прокси результатов
      *
-     * @return ResultDecorator|Result
+     * @return IResultDecorator|Result
      */
     public static function getResultDecorator(Result $result)
     {
