@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\NotImplementedException;
 use Fi1a\BitrixD7OrmDecorator\CollectionDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
@@ -59,5 +60,24 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $collection[] = $iterator->fetchObject();
         $this->assertCount(2, $collection);
+    }
+
+    /**
+     * Тестирование offsetExists
+     *
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testOffsetExists(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->expectException(NotImplementedException::class);
+        isset($collection[0]);
     }
 }
