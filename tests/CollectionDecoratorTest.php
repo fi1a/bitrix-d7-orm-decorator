@@ -142,4 +142,25 @@ class CollectionDecoratorTest extends IBlockTestCase
         $collection->rewind();
         $this->assertIsInt($collection->key());
     }
+
+    /**
+     * Тестирование метода getFirstOccurrence
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testGetFirstOccurrence(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertEquals('element-2', $item->get('CODE'));
+        $this->assertNull($collection->getFirstOccurrence('CODE', 'not-exists'));
+    }
 }

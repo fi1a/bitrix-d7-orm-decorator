@@ -159,7 +159,7 @@ class CollectionDecorator implements ICollectionDecorator
     /**
      * @inheritDoc
      */
-    public function getFirstOccurrence(string $fieldName, $value): ?EntityObject
+    public function getFirstOccurrence(string $fieldName, $value): ?IEntityObjectDecorator
     {
         foreach ($this as $object) {
             if ($object->get($fieldName) === $value) {
