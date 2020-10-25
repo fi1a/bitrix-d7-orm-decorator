@@ -29,4 +29,18 @@ class OriginalResultTest extends OriginalTestCase
         $collection = $iterator->fetchCollection();
         $this->assertEquals(3, $collection->count());
     }
+
+    /**
+     * Тестирование __call
+     *
+     * @depends testAdd
+     */
+    public function testCall(): void
+    {
+        $iterator = OriginalDecoratorTable::getList([
+            'select' => ['code'],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+    }
 }
