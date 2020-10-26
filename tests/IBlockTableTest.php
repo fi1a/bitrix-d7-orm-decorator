@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\EntityObject;
 use Fi1a\BitrixD7OrmDecorator\Exception\ErrorException;
+use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockUnknownTable;
@@ -105,5 +107,16 @@ class IBlockTableTest extends IBlockTestCase
         $itemById = ElementIBlockTable::getById($item->getId())->fetchObject();
         $this->assertInstanceOf(ElementIBlock::class, $itemById);
         $this->assertEquals('element-2', $itemById['CODE']);
+    }
+
+    /**
+     * Тестирование createObject
+     *
+     * @depends testAdd
+     */
+    public function testCreateObject(): void
+    {
+        $this->assertInstanceOf(IEntityObjectDecorator::class, ElementIBlockTable::createObject());
+        $this->assertInstanceOf(EntityObject::class, ElementIBlockWithoutObjectTable::createObject());
     }
 }

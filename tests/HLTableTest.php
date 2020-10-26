@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\EntityObject;
+use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HL;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutObjectTable;
@@ -90,5 +92,16 @@ class HLTableTest extends HLTestCase
         $itemById = HLTable::getById($item->getId())->fetchObject();
         $this->assertInstanceOf(HL::class, $itemById);
         $this->assertEquals('element-2', $itemById['UF_CODE']);
+    }
+
+    /**
+     * Тестирование createObject
+     *
+     * @depends testAdd
+     */
+    public function testCreateObject(): void
+    {
+        $this->assertInstanceOf(IEntityObjectDecorator::class, HLTable::createObject());
+        $this->assertInstanceOf(EntityObject::class, HLWithoutObjectTable::createObject());
     }
 }

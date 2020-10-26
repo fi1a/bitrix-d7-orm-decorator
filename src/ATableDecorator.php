@@ -60,6 +60,26 @@ abstract class ATableDecorator implements ITableDecorator
     }
 
     /**
+     * Возвращает объект
+     *
+     * @return IEntityObjectDecorator|\Bitrix\Main\ORM\Objectify\EntityObject
+     */
+    public static function createObject(bool $setDefaultValues = true)
+    {
+        $class = static::getTableClass();
+        /**
+         * @var \Bitrix\Main\ORM\Data\DataManager $class
+         */
+        $object = $class::createObject($setDefaultValues);
+        $proxyClass = static::doGetEntityObjectDecoratorClass();
+        if ($proxyClass) {
+            return new $proxyClass($object);
+        }
+
+        return $object;
+    }
+
+    /**
      * Вызываем методы таблицы
      *
      * @param mixed[]  $arguments

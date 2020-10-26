@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\EntityObject;
+use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorEntityObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorWithoutObjectTable;
@@ -82,5 +84,16 @@ class OriginalTableTest extends OriginalTestCase
         $itemById = OriginalDecoratorTable::getById($item->getId())->fetchObject();
         $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $itemById);
         $this->assertEquals('element-2', $itemById['code']);
+    }
+
+    /**
+     * Тестирование createObject
+     *
+     * @depends testAdd
+     */
+    public function testCreateObject(): void
+    {
+        $this->assertInstanceOf(IEntityObjectDecorator::class, OriginalDecoratorTable::createObject());
+        $this->assertInstanceOf(EntityObject::class, OriginalDecoratorWithoutObjectTable::createObject());
     }
 }

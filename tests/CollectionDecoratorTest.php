@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ArgumentException;
 use Bitrix\Main\NotImplementedException;
 use Fi1a\BitrixD7OrmDecorator\CollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 
 /**
@@ -36,7 +38,7 @@ class CollectionDecoratorTest extends IBlockTestCase
     /**
      * Тестирование offsetSet
      *
-     * @throws \Bitrix\Main\ArgumentException
+     * @throws ArgumentException
      * @throws \Bitrix\Main\SystemException
      *
      * @depends testAdd
@@ -61,6 +63,79 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $collection[] = $iterator->fetchObject();
         $this->assertCount(2, $collection);
+    }
+
+    /**
+     * Исключение при добавлении другого объекта
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testAddToCollectionException(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-1',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertCount(1, $collection);
+        $this->expectException(ArgumentException::class);
+        $collection->add(OriginalDecoratorTable::createObject());
+    }
+
+    /**
+     * Добавление нового элемента в коллекцию
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testAddToCollectionNewItem(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-1',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertCount(1, $collection);
+        $collection->add(ElementIBlockTable::createObject());
+        $this->assertCount(2, $collection);
+    }
+
+    /**
+     * Удаление и добавление элемента
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testAddToCollectionAddAfterRemove(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertCount(3, $collection);
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $collection->remove($item);
+        $this->assertCount(2, $collection);
+        $collection->add($item);
+        $this->assertCount(3, $collection);
     }
 
     /**
@@ -146,7 +221,7 @@ class CollectionDecoratorTest extends IBlockTestCase
     /**
      * Тестирование метода getFirstOccurrence
      *
-     * @throws \Bitrix\Main\ArgumentException
+     * @throws ArgumentException
      * @throws \Bitrix\Main\SystemException
      *
      * @depends testAdd
@@ -167,7 +242,7 @@ class CollectionDecoratorTest extends IBlockTestCase
     /**
      * Тестирование метода has
      *
-     * @throws \Bitrix\Main\ArgumentException
+     * @throws ArgumentException
      * @throws \Bitrix\Main\SystemException
      *
      * @depends testAdd

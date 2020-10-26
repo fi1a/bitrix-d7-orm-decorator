@@ -4,11 +4,17 @@ declare(strict_types=1);
 
 namespace Fi1a\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
+use Closure;
 
 /**
  * Декоратор Bitrix\Main\ORM\Objectify\Collection
+ *
+ * @method hasByPrimary($primary): bool
+ * @method getByPrimary($primary): ?IEntityObjectDecorator
+ * @method getAll(): IEntityObjectDecorator[]
  */
 class CollectionDecorator implements ICollectionDecorator
 {
@@ -51,34 +57,76 @@ class CollectionDecorator implements ICollectionDecorator
     /**
      * Добавляет в коллекцию объект
      *
-     * @param IEntityObjectDecorator|EntityObject $object
-     *
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\SystemException
      */
-    public function add($object): void
+    public function add(IEntityObjectDecorator $object): void
     {
-        if ($object instanceof IEntityObjectDecorator) {
-            $object = $object->getEntityObject();
-        }
-        $this->collection->add($object);
+        $add = Closure::bind(
+            function (IEntityObjectDecorator $object) {
+                // check object class
+                $entityObject = $object->getEntityObject();
+
+                if (!($entityObject instanceof $this->_objectClass)) {
+                    throw new ArgumentException(sprintf(
+                        'Invalid object class %s for %s collection, expected "%s".',
+                        get_class($entityObject),
+                        static::class,
+                        $this->_objectClass
+                    ));
+                }
+                $primary = $this->sysGetPrimaryKey($entityObject);
+                if (!$entityObject->sysHasPrimary()) {
+                    // object is new and there is no primary yet
+                    $entityObject->sysAddOnPrimarySetListener([$this, 'sysOnObjectPrimarySet']);
+                }
+                if (
+                    !isset($this->_objects[$primary])
+                    && (
+                        !isset($this->_objectsChanges[$primary])
+                        || $this->_objectsChanges[$primary] !== static::OBJECT_REMOVED
+                    )
+                ) {
+                    $this->_objects[$primary] = $object;
+                    $this->_objectsChanges[$primary] = static::OBJECT_ADDED;
+                } elseif (
+                    isset($this->_objectsChanges[$primary])
+                    && $this->_objectsChanges[$primary] === static::OBJECT_REMOVED
+                ) {
+                    // silent add for removed runtime
+                    $this->_objects[$primary] = $object;
+
+                    unset($this->_objectsChanges[$primary]);
+                    unset($this->_objectsRemoved[$primary]);
+                }
+            },
+            $this->collection,
+            get_class($this->collection)
+        );
+
+        $add($object);
     }
 
     /**
      * Проверяет наличие объекта в коллекции
      *
-     * @param IEntityObjectDecorator|EntityObject $object
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public function has(IEntityObjectDecorator $object): bool
+    {
+        return $this->collection->has($object->getEntityObject());
+    }
+
+    /**
+     * Удалить объект из коллекции
      *
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\SystemException
      */
-    public function has($object): bool
+    public function remove(IEntityObjectDecorator $object): void
     {
-        if ($object instanceof IEntityObjectDecorator) {
-            $object = $object->getEntityObject();
-        }
-
-        return $this->collection->has($object);
+        $this->collection->remove($object->getEntityObject());
     }
 
     /**
