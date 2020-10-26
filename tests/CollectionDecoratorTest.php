@@ -257,4 +257,28 @@ class CollectionDecoratorTest extends IBlockTestCase
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
         $this->assertTrue($collection->has($item));
     }
+
+    /**
+     * Тестирование fill у коллекции
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testFill(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'select' => [
+                'CODE',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertNull($item->get('NAME'));
+        $collection->fill(['NAME']);
+        $this->assertEquals('Element 2', $item->get('NAME'));
+    }
 }

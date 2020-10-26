@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Fi1a\BitrixD7OrmDecorator;
 
 use Bitrix\Main\ArgumentException;
+use Bitrix\Main\ORM\Fields\FieldTypeMask;
 use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
 use Closure;
@@ -15,6 +16,7 @@ use Closure;
  * @method hasByPrimary($primary): bool
  * @method getByPrimary($primary): ?IEntityObjectDecorator
  * @method getAll(): IEntityObjectDecorator[]
+ * @method removeByPrimary($primary): void
  */
 class CollectionDecorator implements ICollectionDecorator
 {
@@ -127,6 +129,30 @@ class CollectionDecorator implements ICollectionDecorator
     public function remove(IEntityObjectDecorator $object): void
     {
         $this->collection->remove($object->getEntityObject());
+    }
+
+    /**
+     * ills all the values and relations of object
+     *
+     * @param int|string[] $fields Names of fields to fill
+     *
+     * @return self
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public function fill($fields = FieldTypeMask::ALL)
+    {
+        $objects = $this->getObjects();
+        $entityObjects = [];
+        foreach ($objects as $key => $object) {
+            $entityObjects[$key] = $object->getEntityObject();
+        }
+        $this->setObjects($entityObjects);
+        $this->collection->fill($fields);
+        $this->setObjects($objects);
+
+        return $this;
     }
 
     /**
@@ -244,5 +270,40 @@ class CollectionDecorator implements ICollectionDecorator
         }
 
         return null;
+    }
+
+    /**
+     * Возвращает объекты из коллекции
+     *
+     * @return IEntityObjectDecorator[]|EntityObject[]
+     */
+    protected function getObjects(): array
+    {
+        $getObjects = Closure::bind(
+            function () {
+                return $this->_objects;
+            },
+            $this->collection,
+            get_class($this->collection)
+        );
+
+        return $getObjects();
+    }
+
+    /**
+     * Устанавливает объекты коллекции
+     *
+     * @param IEntityObjectDecorator[]|EntityObject[] $objects
+     */
+    protected function setObjects(array $objects): void
+    {
+        $setObjects = Closure::bind(
+            function ($objects) {
+                $this->_objects = $objects;
+            },
+            $this->collection,
+            get_class($this->collection)
+        );
+        $setObjects($objects);
     }
 }
