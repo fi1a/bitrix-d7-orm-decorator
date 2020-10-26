@@ -9,8 +9,6 @@ use Bitrix\Main\ORM\Objectify\EntityObject;
 
 /**
  * Декоратор Bitrix\Main\ORM\Objectify\Collection
- *
- * @mixin Collection
  */
 class CollectionDecorator implements ICollectionDecorator
 {
@@ -47,10 +45,23 @@ class CollectionDecorator implements ICollectionDecorator
      */
     public function offsetSet($offset, $value)
     {
-        if ($value instanceof IEntityObjectDecorator) {
-            $value = $value->getEntityObject();
-        }
         $this->add($value);
+    }
+
+    /**
+     * Добавляет в коллекцию объект
+     *
+     * @param IEntityObjectDecorator|EntityObject $object
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public function add($object): void
+    {
+        if ($object instanceof IEntityObjectDecorator) {
+            $object = $object->getEntityObject();
+        }
+        $this->collection->add($object);
     }
 
     /**
