@@ -8,8 +8,6 @@ use Bitrix\Main\ORM\Objectify\Collection;
 
 /**
  * Интерфейс декоратора Bitrix\Main\ORM\Objectify\Collection
- *
- * @method add(EntityObject $object)
  */
 interface ICollectionDecorator extends \ArrayAccess, \Iterator, \Countable
 {

@@ -163,4 +163,23 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertEquals('element-2', $item->get('CODE'));
         $this->assertNull($collection->getFirstOccurrence('CODE', 'not-exists'));
     }
+
+    /**
+     * Тестирование метода has
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testHas(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertTrue($collection->has($item));
+    }
 }

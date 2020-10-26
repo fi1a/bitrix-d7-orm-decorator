@@ -65,6 +65,23 @@ class CollectionDecorator implements ICollectionDecorator
     }
 
     /**
+     * Проверяет наличие объекта в коллекции
+     *
+     * @param IEntityObjectDecorator|EntityObject $object
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public function has($object): bool
+    {
+        if ($object instanceof IEntityObjectDecorator) {
+            $object = $object->getEntityObject();
+        }
+
+        return $this->collection->has($object);
+    }
+
+    /**
      * ArrayAccess implementation
      *
      * @param mixed $offset
