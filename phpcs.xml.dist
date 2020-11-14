@@ -409,7 +409,7 @@
     <rule ref="Squiz.PHP.NonExecutableCode"/>
 
     <!-- Forbid `$this` inside static function -->
-    <rule ref="Squiz.Scope.StaticThisUsage"/>
+    <!--<rule ref="Squiz.Scope.StaticThisUsage"/>-->
 
     <!-- Force whitespace before and after concatenation -->
     <rule ref="Squiz.Strings.ConcatenationSpacing">

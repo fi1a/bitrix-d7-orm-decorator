@@ -9,6 +9,7 @@ use Bitrix\Highloadblock\HighloadBlockTable;
 use Bitrix\Main\Loader;
 use CUserTypeEntity;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutCollectionTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutObjectTable;
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +32,7 @@ class HLTestCase extends TestCase
 
         HLTable::resetState();
         HLWithoutObjectTable::resetState();
-        HLTable::$hlName = HLWithoutObjectTable::$hlName = 'Hl' . uniqid();
+        HLTable::$hlName = HLWithoutObjectTable::$hlName = HLWithoutCollectionTable::$hlName = 'Hl' . uniqid();
 
         $langs = [
             'ru' => 'HL',

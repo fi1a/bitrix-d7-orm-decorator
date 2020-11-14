@@ -9,7 +9,7 @@ use Fi1a\BitrixD7OrmDecorator\AHLTableDecorator;
 /**
  * Класс для тестирования декоратора highloadblock orm
  */
-class HLTable extends AHLTableDecorator
+class HLWithoutCollectionTable extends AHLTableDecorator
 {
     /**
      * @var string
@@ -35,13 +35,5 @@ class HLTable extends AHLTableDecorator
     protected static function doGetEntityObjectDecoratorClass(): ?string
     {
         return HL::class;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected static function doGetCollectionDecoratorClass(): ?string
-    {
-        return HLCollection::class;
     }
 }

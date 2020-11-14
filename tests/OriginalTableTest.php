@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
+use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorEntityObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorWithoutCollectionTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorWithoutObjectTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalEntityObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\OriginalTestCase;
@@ -59,6 +62,25 @@ class OriginalTableTest extends OriginalTestCase
     }
 
     /**
+     * Тестирование метода getList
+     *
+     * @depends testAdd
+     */
+    public function testGetListWithoutCollection(): void
+    {
+        $iterator = OriginalDecoratorWithoutCollectionTable::getList([
+            'filter' => [
+                '=code' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(1, $collection);
+    }
+
+    /**
      * Тестирование getById
      *
      * @throws \Bitrix\Main\ArgumentException
@@ -95,5 +117,22 @@ class OriginalTableTest extends OriginalTestCase
     {
         $this->assertInstanceOf(IEntityObjectDecorator::class, OriginalDecoratorTable::createObject());
         $this->assertInstanceOf(EntityObject::class, OriginalDecoratorWithoutObjectTable::createObject());
+    }
+
+    /**
+     * Тестирование createCollection
+     *
+     * @depends testAdd
+     */
+    public function testCreateCollection(): void
+    {
+        $this->assertInstanceOf(
+            ICollectionDecorator::class,
+            OriginalDecoratorTable::createCollection()
+        );
+        $this->assertInstanceOf(
+            Collection::class,
+            OriginalDecoratorWithoutCollectionTable::createCollection()
+        );
     }
 }

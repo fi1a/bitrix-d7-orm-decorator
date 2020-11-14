@@ -9,7 +9,7 @@ use Fi1a\BitrixD7OrmDecorator\AIBlockTableDecorator;
 /**
  * Класс для тестирования декоратора iblock orm
  */
-class ElementIBlockTable extends AIBlockTableDecorator
+class ElementIBlockWithoutCollectionTable extends AIBlockTableDecorator
 {
     public const API_CODE = 'IBlock';
 
@@ -32,13 +32,5 @@ class ElementIBlockTable extends AIBlockTableDecorator
     protected static function doGetEntityObjectDecoratorClass(): ?string
     {
         return ElementIBlock::class;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected static function doGetCollectionDecoratorClass(): ?string
-    {
-        return ElementIBlockCollection::class;
     }
 }

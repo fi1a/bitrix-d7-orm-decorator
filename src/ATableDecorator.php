@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Fi1a\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Query\Result;
 
 /**
@@ -29,9 +30,9 @@ abstract class ATableDecorator implements ITableDecorator
     /**
      * Возвращает класс коллекции
      */
-    protected static function doGetCollectionDecoratorClass(): string
+    protected static function doGetCollectionDecoratorClass(): ?string
     {
-        return CollectionDecorator::class;
+        return null;
     }
 
     /**
@@ -71,12 +72,35 @@ abstract class ATableDecorator implements ITableDecorator
          * @var \Bitrix\Main\ORM\Data\DataManager $class
          */
         $object = $class::createObject($setDefaultValues);
-        $proxyClass = static::doGetEntityObjectDecoratorClass();
-        if ($proxyClass) {
-            return new $proxyClass($object);
+        $decoratorClass = static::doGetEntityObjectDecoratorClass();
+        if ($decoratorClass) {
+            return new $decoratorClass($object);
         }
 
         return $object;
+    }
+
+    /**
+     * Создание коллекции
+     *
+     * @return ICollectionDecorator|Collection
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     */
+    public static function createCollection()
+    {
+        $class = static::getTableClass();
+        /**
+         * @var \Bitrix\Main\ORM\Data\DataManager $class
+         */
+        $collectionClass = static::doGetCollectionDecoratorClass();
+        $collection = $class::getEntity()->createCollection();
+        if ($collectionClass) {
+            return new $collectionClass($collection);
+        }
+
+        return $collection;
     }
 
     /**
@@ -100,7 +124,7 @@ abstract class ATableDecorator implements ITableDecorator
      */
     public static function getResultDecorator(Result $result)
     {
-        if (!static::doGetEntityObjectDecoratorClass()) {
+        if (!static::doGetEntityObjectDecoratorClass() || !static::doGetCollectionDecoratorClass()) {
             return $result;
         }
 

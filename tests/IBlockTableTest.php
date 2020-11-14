@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
 use Fi1a\BitrixD7OrmDecorator\Exception\ErrorException;
+use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockUnknownTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockWithoutCollectionTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockWithoutObjectTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 
@@ -57,6 +60,25 @@ class IBlockTableTest extends IBlockTestCase
         $item = $iterator->fetchObject();
         $this->assertInstanceOf('Bitrix\Iblock\Elements\EO_ElementIBlock', $item);
         $this->assertEquals('element-2', $item['CODE']);
+    }
+
+    /**
+     * Тестирование метода getList
+     *
+     * @depends testAdd
+     */
+    public function testGetListWithoutCollection(): void
+    {
+        $iterator = ElementIBlockWithoutCollectionTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(1, $collection);
     }
 
     /**
@@ -118,5 +140,22 @@ class IBlockTableTest extends IBlockTestCase
     {
         $this->assertInstanceOf(IEntityObjectDecorator::class, ElementIBlockTable::createObject());
         $this->assertInstanceOf(EntityObject::class, ElementIBlockWithoutObjectTable::createObject());
+    }
+
+    /**
+     * Тестирование createCollection
+     *
+     * @depends testAdd
+     */
+    public function testCreateCollection(): void
+    {
+        $this->assertInstanceOf(
+            ICollectionDecorator::class,
+            ElementIBlockTable::createCollection()
+        );
+        $this->assertInstanceOf(
+            Collection::class,
+            ElementIBlockWithoutCollectionTable::createCollection()
+        );
     }
 }

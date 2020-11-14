@@ -9,7 +9,7 @@ use Fi1a\BitrixD7OrmDecorator\ATableDecorator;
 /**
  * Класс для тестирования декоратора 1С-Битрикс D7 ORM
  */
-class OriginalDecoratorTable extends ATableDecorator
+class OriginalDecoratorWithoutCollectionTable extends ATableDecorator
 {
     /**
      * @var string
@@ -30,13 +30,5 @@ class OriginalDecoratorTable extends ATableDecorator
     protected static function doGetEntityObjectDecoratorClass(): ?string
     {
         return OriginalDecoratorEntityObject::class;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    protected static function doGetCollectionDecoratorClass(): ?string
-    {
-        return OriginalDecoratorCollection::class;
     }
 }

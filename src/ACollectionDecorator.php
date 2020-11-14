@@ -19,12 +19,22 @@ use Closure;
  * @method removeByPrimary($primary): void
  * @method save(bool $ignoreEvents = false): \Bitrix\Main\ORM\Data\UpdateResult|\Bitrix\Main\ORM\Data\AddResult
  */
-class CollectionDecorator implements ICollectionDecorator
+abstract class ACollectionDecorator implements ICollectionDecorator
 {
     /**
      * @var Collection
      */
     protected $collection;
+
+    /**
+     * Возвращает класс объекта
+     */
+    abstract protected static function doGetEntityObjectDecoratorClass(): string;
+
+    /**
+     * Возвращает класс таблицы
+     */
+    abstract protected static function doGetTableDecoratorClass(): string;
 
     /**
      * Конструктор
@@ -154,6 +164,47 @@ class CollectionDecorator implements ICollectionDecorator
         $this->setObjects($objects);
 
         return $this;
+    }
+
+    /**
+     * Constructs set of existing objects from pre-selected data, including references and relations.
+     *
+     * @param mixed[] $rows
+     */
+    public static function wakeUp(array $rows): ICollectionDecorator
+    {
+        /**
+         * @var IEntityObjectDecorator $objectClass
+         */
+        $objectClass = static::doGetEntityObjectDecoratorClass();
+        /**
+         * @var ITableDecorator $tableClass
+         */
+        $tableClass = static::doGetTableDecoratorClass();
+        $collection = $tableClass::createCollection();
+
+        $getCollection = Closure::bind(
+            function () {
+                return $this->collection;
+            },
+            $collection,
+            get_class($collection)
+        );
+        $originalCollection = $getCollection($collection);
+
+        $sysAddActual = Closure::bind(
+            function (IEntityObjectDecorator $object) {
+                $this->_objects[$this->sysGetPrimaryKey($object->getEntityObject())] = $object;
+            },
+            $originalCollection,
+            get_class($originalCollection)
+        );
+
+        foreach ($rows as $row) {
+            $sysAddActual($objectClass::wakeUp($row));
+        }
+
+        return $collection;
     }
 
     /**

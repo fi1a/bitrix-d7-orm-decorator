@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
+use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
+use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HL;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutCollectionTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutObjectTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\HLTestCase;
 
@@ -58,6 +61,25 @@ class HLTableTest extends HLTestCase
     }
 
     /**
+     * Тестирование метода getList
+     *
+     * @depends testAdd
+     */
+    public function testGetListWithoutCollection(): void
+    {
+        $iterator = HLWithoutCollectionTable::getList([
+            'filter' => [
+                '=UF_CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(1, $collection);
+    }
+
+    /**
      * Тестирование resetState
      */
     public function testResetState(): void
@@ -103,5 +125,22 @@ class HLTableTest extends HLTestCase
     {
         $this->assertInstanceOf(IEntityObjectDecorator::class, HLTable::createObject());
         $this->assertInstanceOf(EntityObject::class, HLWithoutObjectTable::createObject());
+    }
+
+    /**
+     * Тестирование createCollection
+     *
+     * @depends testAdd
+     */
+    public function testCreateCollection(): void
+    {
+        $this->assertInstanceOf(
+            ICollectionDecorator::class,
+            HLTable::createCollection()
+        );
+        $this->assertInstanceOf(
+            Collection::class,
+            HLWithoutCollectionTable::createCollection()
+        );
     }
 }

@@ -6,7 +6,7 @@ namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\NotImplementedException;
-use Fi1a\BitrixD7OrmDecorator\CollectionDecorator;
+use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
@@ -31,7 +31,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(3, $collection->getAll());
     }
 
@@ -53,7 +53,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(1, $collection);
         $iterator = ElementIBlockTable::getList([
             'filter' => [
@@ -83,7 +83,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(1, $collection);
         $this->expectException(ArgumentException::class);
         $collection->add(OriginalDecoratorTable::createObject());
@@ -107,7 +107,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(1, $collection);
         $collection->add(ElementIBlockTable::createObject());
         $this->assertCount(2, $collection);
@@ -128,7 +128,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(3, $collection);
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
         $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
@@ -151,7 +151,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(3, $collection);
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
         $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
@@ -175,7 +175,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->expectException(NotImplementedException::class);
         isset($collection[0]);
     }
@@ -194,7 +194,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->expectException(NotImplementedException::class);
         unset($collection[0]);
     }
@@ -213,7 +213,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         ]);
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
-        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->expectException(NotImplementedException::class);
         $collection[0];
     }
@@ -406,5 +406,29 @@ class CollectionDecoratorTest extends IBlockTestCase
         $item->set('NAME', 'Element 2');
         $result = $collection->save();
         $this->assertTrue($result->isSuccess());
+    }
+
+    /**
+     * Тестирование метода wakeUp
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUp(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = ElementIBlockTable::createCollection();
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
+        $this->assertCount(0, $collection);
+        $wakeupCollection = $collection::wakeUp($rows);
+        $this->assertCount(3, $wakeupCollection);
+        $item = $wakeupCollection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertEquals('element-2', $item->get('CODE'));
     }
 }
