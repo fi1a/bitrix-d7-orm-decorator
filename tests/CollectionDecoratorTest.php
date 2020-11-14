@@ -358,4 +358,22 @@ class CollectionDecoratorTest extends IBlockTestCase
         $collection = $iterator->fetchCollection();
         $this->assertCount(3, $collection->getAll());
     }
+
+    /**
+     * Тестирование метода removeByPrimary
+     *
+     * @depends testAdd
+     */
+    public function testRemoveByPrimary(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $collection->removeByPrimary($item->get('ID'));
+        $this->assertCount(2, $collection);
+        $this->assertNull($collection->getFirstOccurrence('CODE', 'element-2'));
+    }
 }
