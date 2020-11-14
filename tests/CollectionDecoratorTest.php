@@ -318,4 +318,21 @@ class CollectionDecoratorTest extends IBlockTestCase
         );
         $this->assertFalse($collection->hasByPrimary('unknown'));
     }
+
+    /**
+     * Тестирование метода getAll
+     *
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testGetAll(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertCount(3, $collection->getAll());
+    }
 }
