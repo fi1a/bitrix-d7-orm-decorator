@@ -281,4 +281,21 @@ class CollectionDecoratorTest extends IBlockTestCase
         $collection->fill(['NAME']);
         $this->assertEquals('Element 2', $item->get('NAME'));
     }
+
+    /**
+     * Тестирование метода hasByPrimary
+     *
+     * @depends testAdd
+     */
+    public function testHasByPrimary(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertTrue($collection->hasByPrimary($item->get('ID')));
+        $this->assertFalse($collection->hasByPrimary('unknown'));
+    }
 }
