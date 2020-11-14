@@ -376,4 +376,35 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertCount(2, $collection);
         $this->assertNull($collection->getFirstOccurrence('CODE', 'element-2'));
     }
+
+    /**
+     * Тестирование метода save
+     *
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testSave(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertEquals('Element 2', $item->get('NAME'));
+        $item->set('NAME', 'Element 2 Updated');
+        $result = $collection->save();
+        $this->assertTrue($result->isSuccess());
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertEquals('Element 2 Updated', $item->get('NAME'));
+        $item->set('NAME', 'Element 2');
+        $result = $collection->save();
+        $this->assertTrue($result->isSuccess());
+    }
 }

@@ -17,6 +17,7 @@ use Closure;
  * @method getByPrimary($primary): IEntityObjectDecorator|false
  * @method getAll(): IEntityObjectDecorator[]
  * @method removeByPrimary($primary): void
+ * @method save(bool $ignoreEvents = false): \Bitrix\Main\ORM\Data\UpdateResult|\Bitrix\Main\ORM\Data\AddResult
  */
 class CollectionDecorator implements ICollectionDecorator
 {
