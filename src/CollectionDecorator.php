@@ -14,7 +14,7 @@ use Closure;
  * Декоратор Bitrix\Main\ORM\Objectify\Collection
  *
  * @method hasByPrimary($primary): bool
- * @method getByPrimary($primary): ?IEntityObjectDecorator
+ * @method getByPrimary($primary): IEntityObjectDecorator|false
  * @method getAll(): IEntityObjectDecorator[]
  * @method removeByPrimary($primary): void
  */
