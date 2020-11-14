@@ -114,6 +114,29 @@ class CollectionDecoratorTest extends IBlockTestCase
     }
 
     /**
+     * Тестирование метода remove
+     *
+     * @throws ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testRemove(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $collection = $iterator->fetchCollection();
+        $this->assertInstanceOf(CollectionDecorator::class, $collection);
+        $this->assertCount(3, $collection);
+        $item = $collection->getFirstOccurrence('CODE', 'element-2');
+        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $collection->remove($item);
+        $this->assertCount(2, $collection);
+    }
+
+    /**
      * Удаление и добавление элемента
      *
      * @throws ArgumentException
