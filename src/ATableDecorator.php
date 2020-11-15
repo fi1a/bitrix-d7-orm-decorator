@@ -23,6 +23,8 @@ use Bitrix\Main\ORM\Query\Result;
  * @method static getCollectionParentClass(): string
  * @method static getQueryClass(): string
  * @method static getEntityClass(): string
+ * @method static getMap(): mixed[]
+ * @method static setDefaultScope(\Bitrix\Main\ORM\Query\Query $query): \Bitrix\Main\ORM\Query\Query
  */
 abstract class ATableDecorator implements ITableDecorator
 {
@@ -53,7 +55,7 @@ abstract class ATableDecorator implements ITableDecorator
      *
      * @param mixed[] $parameters
      *
-     * @return Result
+     * @return IResultDecorator|Result
      */
     public static function getList(array $parameters = [])
     {
@@ -63,13 +65,34 @@ abstract class ATableDecorator implements ITableDecorator
     }
 
     /**
-     * @inheritDoc
+     * Returns selection by entity's primary key
+     *
+     * @param mixed $id
+     *
+     * @return IResultDecorator|Result
      */
     public static function getById($id)
     {
         $class = static::getTableClass();
 
         return static::getResultDecorator(call_user_func_array([$class, 'getById'], [$id]));
+    }
+
+    /**
+     * Returns selection by entity's primary key and optional parameters for getList()
+     *
+     * @param mixed $primary
+     * @param mixed[] $parameters
+     *
+     * @return IResultDecorator|Result
+     */
+    public static function getByPrimary($primary, array $parameters = [])
+    {
+        $class = static::getTableClass();
+
+        return static::getResultDecorator(
+            call_user_func_array([$class, 'getByPrimary'], [$primary, $parameters])
+        );
     }
 
     /**

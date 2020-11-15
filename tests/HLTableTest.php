@@ -117,6 +117,34 @@ class HLTableTest extends HLTestCase
     }
 
     /**
+     * Тестирование getById
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testGetByPrimary(): void
+    {
+        $iterator = HLTable::getList([
+            'filter' => [
+                '=UF_CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        /**
+         * @var HL $item
+         */
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf(HL::class, $item);
+        $this->assertEquals('element-2', $item['UF_CODE']);
+        $itemById = HLTable::getByPrimary($item->getId())->fetchObject();
+        $this->assertInstanceOf(HL::class, $itemById);
+        $this->assertEquals('element-2', $itemById['UF_CODE']);
+    }
+
+    /**
      * Тестирование createObject
      *
      * @depends testAdd

@@ -132,6 +132,34 @@ class IBlockTableTest extends IBlockTestCase
     }
 
     /**
+     * Тестирование getByPrimary
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testGetByPrimary(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        /**
+         * @var ElementIBlock $item
+         */
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf(ElementIBlock::class, $item);
+        $this->assertEquals('element-2', $item['CODE']);
+        $itemById = ElementIBlockTable::getByPrimary($item->getId())->fetchObject();
+        $this->assertInstanceOf(ElementIBlock::class, $itemById);
+        $this->assertEquals('element-2', $itemById['CODE']);
+    }
+
+    /**
      * Тестирование createObject
      *
      * @depends testAdd

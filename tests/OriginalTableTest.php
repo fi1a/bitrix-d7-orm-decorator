@@ -109,6 +109,34 @@ class OriginalTableTest extends OriginalTestCase
     }
 
     /**
+     * Тестирование getById
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testGetByPrimary(): void
+    {
+        $iterator = OriginalDecoratorTable::getList([
+            'filter' => [
+                '=code' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        /**
+         * @var OriginalDecoratorEntityObject $item
+         */
+        $item = $iterator->fetchObject();
+        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertEquals('element-2', $item['code']);
+        $itemById = OriginalDecoratorTable::getByPrimary($item->getId())->fetchObject();
+        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $itemById);
+        $this->assertEquals('element-2', $itemById['code']);
+    }
+
+    /**
      * Тестирование createObject
      *
      * @depends testAdd
