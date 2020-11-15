@@ -158,4 +158,50 @@ class IBlockTableTest extends IBlockTestCase
             ElementIBlockWithoutCollectionTable::createCollection()
         );
     }
+
+    /**
+     * Тестирование wakeUpObject
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpObject(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        $item = ElementIBlockTable::wakeUpObject($row);
+        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertEquals('element-2', $item->get('CODE'));
+    }
+
+    /**
+     * Тестирование wakeUpObject
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpObjectWithoutObject(): void
+    {
+        $iterator = ElementIBlockWithoutObjectTable::getList([
+            'filter' => [
+                '=CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        $item = ElementIBlockWithoutObjectTable::wakeUpObject($row);
+        $this->assertInstanceOf(EntityObject::class, $item);
+        $this->assertEquals('element-2', $item->get('CODE'));
+    }
 }

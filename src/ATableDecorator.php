@@ -10,7 +10,19 @@ use Bitrix\Main\ORM\Query\Result;
 /**
  * Декоратор Bitrix\Main\ORM\Data\DataManager
  *
- * @mixin \Bitrix\Main\ORM\Data\DataManager
+ * @method static getEntity(): \Bitrix\Main\ORM\Entity
+ * @method static unsetEntity(string $class): void
+ * @method static getTableName(): ?string
+ * @method static getConnectionName(): string
+ * @method static getTitle(): ?string
+ * @method static getObjectClass(): string|\Bitrix\Main\ORM\Objectify\EntityObject
+ * @method static getObjectClassName(): string
+ * @method static getCollectionClass(): string
+ * @method static getCollectionClassName(): string
+ * @method static getObjectParentClass(): string
+ * @method static getCollectionParentClass(): string
+ * @method static getQueryClass(): string
+ * @method static getEntityClass(): string
  */
 abstract class ATableDecorator implements ITableDecorator
 {
@@ -101,6 +113,28 @@ abstract class ATableDecorator implements ITableDecorator
         }
 
         return $collection;
+    }
+
+    /**
+     * @see EntityObject::wakeUp()
+     *
+     * @param mixed[] $row
+     *
+     * @return IEntityObjectDecorator|\Bitrix\Main\ORM\Objectify\EntityObject
+     */
+    public static function wakeUpObject(array $row)
+    {
+        $class = static::getTableClass();
+        /**
+         * @var \Bitrix\Main\ORM\Data\DataManager $class
+         */
+        $object = $class::getEntity()->wakeUpObject($row);
+        $decoratorClass = static::doGetEntityObjectDecoratorClass();
+        if ($decoratorClass) {
+            return new $decoratorClass($object);
+        }
+
+        return $object;
     }
 
     /**

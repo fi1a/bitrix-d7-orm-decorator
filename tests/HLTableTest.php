@@ -143,4 +143,50 @@ class HLTableTest extends HLTestCase
             HLWithoutCollectionTable::createCollection()
         );
     }
+
+    /**
+     * Тестирование wakeUpObject
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpObject(): void
+    {
+        $iterator = HLTable::getList([
+            'filter' => [
+                '=UF_CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        $item = HLTable::wakeUpObject($row);
+        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertEquals('element-2', $item->get('UF_CODE'));
+    }
+
+    /**
+     * Тестирование wakeUpObject
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpObjectWithoutObject(): void
+    {
+        $iterator = HLWithoutObjectTable::getList([
+            'filter' => [
+                '=UF_CODE' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        $item = HLWithoutObjectTable::wakeUpObject($row);
+        $this->assertInstanceOf(EntityObject::class, $item);
+        $this->assertEquals('element-2', $item->get('UF_CODE'));
+    }
 }

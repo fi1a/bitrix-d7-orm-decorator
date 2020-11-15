@@ -135,4 +135,50 @@ class OriginalTableTest extends OriginalTestCase
             OriginalDecoratorWithoutCollectionTable::createCollection()
         );
     }
+
+    /**
+     * Тестирование wakeUpObject
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpObject(): void
+    {
+        $iterator = OriginalDecoratorTable::getList([
+            'filter' => [
+                '=code' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        $item = OriginalDecoratorTable::wakeUpObject($row);
+        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertEquals('element-2', $item->get('code'));
+    }
+
+    /**
+     * Тестирование wakeUpObject
+     *
+     * @throws \Bitrix\Main\ArgumentException
+     * @throws \Bitrix\Main\SystemException
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpObjectWithoutObject(): void
+    {
+        $iterator = OriginalDecoratorWithoutObjectTable::getList([
+            'filter' => [
+                '=code' => 'element-2',
+            ],
+            'count_total' => true,
+        ]);
+        $this->assertEquals(1, $iterator->getSelectedRowsCount());
+        $row = $iterator->fetch();
+        $item = OriginalDecoratorWithoutObjectTable::wakeUpObject($row);
+        $this->assertInstanceOf(EntityObject::class, $item);
+        $this->assertEquals('element-2', $item->get('code'));
+    }
 }
