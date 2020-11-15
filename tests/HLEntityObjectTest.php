@@ -175,4 +175,19 @@ class HLEntityObjectTest extends HLTestCase
         unset($item['UF_CODE']);
         $this->assertNull($item['UF_CODE']);
     }
+
+    /**
+     * Тестирование CRUD
+     *
+     * @depends testAdd
+     */
+    public function testCRUD(): void
+    {
+        $item = HLTable::createObject();
+        $item->set('UF_CODE', 'new element');
+        $this->assertTrue($item->save()->isSuccess());
+        $item->set('UF_CODE', 'update element');
+        $this->assertTrue($item->save()->isSuccess());
+        $this->assertTrue($item->delete()->isSuccess());
+    }
 }

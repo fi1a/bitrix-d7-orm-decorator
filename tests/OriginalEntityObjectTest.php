@@ -175,4 +175,19 @@ class OriginalEntityObjectTest extends OriginalTestCase
         unset($item['code']);
         $this->assertNull($item['code']);
     }
+
+    /**
+     * Тестирование CRUD
+     *
+     * @depends testAdd
+     */
+    public function testCRUD(): void
+    {
+        $item = OriginalDecoratorTable::createObject();
+        $item->set('code', 'new element');
+        $this->assertTrue($item->save()->isSuccess());
+        $item->set('code', 'update element');
+        $this->assertTrue($item->save()->isSuccess());
+        $this->assertTrue($item->delete()->isSuccess());
+    }
 }

@@ -175,4 +175,20 @@ class IBlockEntityObjectTest extends IBlockTestCase
         unset($item['CODE']);
         $this->assertNull($item['CODE']);
     }
+
+    /**
+     * Тестирование CRUD
+     */
+    public function testCRUD(): void
+    {
+        $item = ElementIBlockTable::createObject();
+        $item->set('CODE', 'new element');
+        $item->set('NAME', 'new element');
+        $this->assertTrue($item->save()->isSuccess());
+        $item->set('CODE', 'update element');
+        $item->set('NAME', 'update element');
+        $this->assertTrue($item->save()->isSuccess());
+        // Ошибка в main 20.5.393 или в iblock 20.0.800
+        //$this->assertTrue($item->delete()->isSuccess());
+    }
 }

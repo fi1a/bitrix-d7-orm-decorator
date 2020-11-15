@@ -53,7 +53,7 @@ abstract class AEntityObjectDecorator implements IEntityObjectDecorator
     }
 
     /**
-     * Вызываем методы Bitrix\Main\ORM\Objectify\EntityObject
+     * Вызываем методы \Bitrix\Main\ORM\Objectify\EntityObject
      *
      * @param mixed[] $arguments
      *
