@@ -204,4 +204,38 @@ class IBlockTableTest extends IBlockTestCase
         $this->assertInstanceOf(EntityObject::class, $item);
         $this->assertEquals('element-2', $item->get('CODE'));
     }
+
+    /**
+     * Тестирование wakeUpCollection
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpCollection(): void
+    {
+        $iterator = ElementIBlockTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = ElementIBlockTable::wakeUpCollection($rows);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
+        $this->assertCount(3, $collection);
+    }
+
+    /**
+     * Тестирование wakeUpCollection
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpCollectionWithoutCollection(): void
+    {
+        $iterator = ElementIBlockWithoutCollectionTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = ElementIBlockWithoutCollectionTable::wakeUpCollection($rows);
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(3, $collection);
+    }
 }

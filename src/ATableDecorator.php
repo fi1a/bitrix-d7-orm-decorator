@@ -138,6 +138,28 @@ abstract class ATableDecorator implements ITableDecorator
     }
 
     /**
+     * @see Collection::wakeUp()
+     *
+     * @param mixed[] $rows
+     *
+     * @return ICollectionDecorator|Collection
+     */
+    public static function wakeUpCollection(array $rows)
+    {
+        $class = static::getTableClass();
+        /**
+         * @var \Bitrix\Main\ORM\Data\DataManager $class
+         */
+        $collectionClass = static::doGetCollectionDecoratorClass();
+        $collection = $class::getEntity()->wakeUpCollection($rows);
+        if ($collectionClass) {
+            return new $collectionClass($collection);
+        }
+
+        return $collection;
+    }
+
+    /**
      * Вызываем методы таблицы
      *
      * @param mixed[]  $arguments

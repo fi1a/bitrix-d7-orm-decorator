@@ -181,4 +181,38 @@ class OriginalTableTest extends OriginalTestCase
         $this->assertInstanceOf(EntityObject::class, $item);
         $this->assertEquals('element-2', $item->get('code'));
     }
+
+    /**
+     * Тестирование wakeUpCollection
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpCollection(): void
+    {
+        $iterator = OriginalDecoratorTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = OriginalDecoratorTable::wakeUpCollection($rows);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
+        $this->assertCount(3, $collection);
+    }
+
+    /**
+     * Тестирование wakeUpCollection
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpCollectionWithoutCollection(): void
+    {
+        $iterator = OriginalDecoratorWithoutCollectionTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = OriginalDecoratorWithoutCollectionTable::wakeUpCollection($rows);
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(3, $collection);
+    }
 }

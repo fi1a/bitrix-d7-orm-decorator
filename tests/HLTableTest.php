@@ -189,4 +189,38 @@ class HLTableTest extends HLTestCase
         $this->assertInstanceOf(EntityObject::class, $item);
         $this->assertEquals('element-2', $item->get('UF_CODE'));
     }
+
+    /**
+     * Тестирование wakeUpCollection
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpCollection(): void
+    {
+        $iterator = HLTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = HLTable::wakeUpCollection($rows);
+        $this->assertInstanceOf(ICollectionDecorator::class, $collection);
+        $this->assertCount(3, $collection);
+    }
+
+    /**
+     * Тестирование wakeUpCollection
+     *
+     * @depends testAdd
+     */
+    public function testWakeUpCollectionWithoutCollection(): void
+    {
+        $iterator = HLWithoutCollectionTable::getList([
+            'count_total' => true,
+        ]);
+        $this->assertEquals(3, $iterator->getSelectedRowsCount());
+        $rows = $iterator->fetchAll();
+        $collection = HLWithoutCollectionTable::wakeUpCollection($rows);
+        $this->assertInstanceOf(Collection::class, $collection);
+        $this->assertCount(3, $collection);
+    }
 }
