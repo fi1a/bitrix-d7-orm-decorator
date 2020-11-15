@@ -8,7 +8,27 @@ use Bitrix\Main\ORM\Query\Result;
 use Closure;
 
 /**
- * Декоратор Bitrix\Main\ORM\Query\Result
+ * Декоратор \Bitrix\Main\ORM\Query\Result
+ *
+ * @method setHiddenObjectFields(string[] $hiddenObjectFields): void
+ * @method getFields(): \Bitrix\Main\ORM\Fields\ScalarField[]
+ * @method getSelectedRowsCount(): int
+ * @method setIdentityMap(\Bitrix\Main\ORM\Objectify\IdentityMap $map): self
+ * @method getIdentityMap(): \Bitrix\Main\ORM\Objectify\IdentityMap
+ * @method getResource(): null|resource
+ * @method setReplacedAliases(string[] $replacedAliases): void
+ * @method addReplacedAliases(string[] $replacedAliases): void
+ * @method setSerializedFields(mixed[] $serializedFields): void
+ * @method addFetchDataModifier($fetchDataModifier): void
+ * @method fetchRaw(): mixed[]|false
+ * @method fetch(): mixed[]|false
+ * @method fetchAll(): mixed[]
+ * @method getTrackerQuery(): \Bitrix\Main\Diag\SqlTrackerQuery|null
+ * @method getConverters(): callable[]
+ * @method setConverters(callable[] $converters): void
+ * @method setCount(int $n): void
+ * @method getCount(): int
+ * @method getIterator(): \Traversable
  */
 class ResultDecorator implements IResultDecorator
 {
