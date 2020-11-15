@@ -7,6 +7,9 @@ namespace Fi1a\BitrixD7OrmDecorator;
 use Bitrix\Main\ORM\Entity;
 use Bitrix\Main\ORM\Query\Query as BitrixQuery;
 
+/**
+ * Объект запроса
+ */
 class Query extends BitrixQuery
 {
     /**

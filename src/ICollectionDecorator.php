@@ -7,7 +7,7 @@ namespace Fi1a\BitrixD7OrmDecorator;
 use Bitrix\Main\ORM\Objectify\Collection;
 
 /**
- * Интерфейс декоратора Bitrix\Main\ORM\Objectify\Collection
+ * Интерфейс декоратора \Bitrix\Main\ORM\Objectify\Collection
  */
 interface ICollectionDecorator extends \ArrayAccess, \Iterator, \Countable
 {

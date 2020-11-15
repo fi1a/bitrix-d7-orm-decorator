@@ -7,7 +7,7 @@ namespace Fi1a\BitrixD7OrmDecorator;
 use Bitrix\Main\ORM\Objectify\EntityObject;
 
 /**
- * Интерфейс декоратора Bitrix\Main\ORM\Objectify\EntityObject
+ * Интерфейс декоратора \Bitrix\Main\ORM\Objectify\EntityObject
  */
 interface IEntityObjectDecorator extends \ArrayAccess
 {

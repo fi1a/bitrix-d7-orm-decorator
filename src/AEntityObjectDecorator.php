@@ -7,9 +7,26 @@ namespace Fi1a\BitrixD7OrmDecorator;
 use Bitrix\Main\ORM\Objectify\EntityObject;
 
 /**
- * Декоратор Bitrix\Main\ORM\Objectify\EntityObject
+ * Декоратор \Bitrix\Main\ORM\Objectify\EntityObject
  *
- * @mixin EntityObject
+ * @method collectValues($valuesType, $fieldsMask): mixed[]
+ * @method save(): \Bitrix\Main\ORM\Data\Result
+ * @method delete(): \Bitrix\Main\ORM\Data\Result
+ * @method fill($fields = \Bitrix\Main\ORM\Fields\FieldTypeMask::ALL): mixed
+ * @method getId(): int
+ * @method get(string $fieldName): mixed
+ * @method remindActual(string $fieldName): mixed
+ * @method require(string $fieldName): mixed
+ * @method set(string $fieldName, mixed $value): mixed
+ * @method reset(string $fieldName): mixed
+ * @method unset(string $fieldName): mixed
+ * @method has(string $fieldName): bool
+ * @method isFilled(string $fieldName): bool
+ * @method isChanged(string $fieldName): bool
+ * @method addTo(string $fieldName, mixed $value): mixed
+ * @method removeFrom(string $fieldName, mixed $value): mixed
+ * @method removeAll(string $fieldName): mixed
+ * @method defineAuthContext(\Bitrix\Main\Authentication\Context $authContext): void
  */
 abstract class AEntityObjectDecorator implements IEntityObjectDecorator
 {
