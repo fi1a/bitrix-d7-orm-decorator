@@ -6,9 +6,11 @@ namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
 use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
+use Bitrix\Main\ORM\Query\Query as BitrixQuery;
 use Fi1a\BitrixD7OrmDecorator\Exception\ErrorException;
 use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
+use Fi1a\BitrixD7OrmDecorator\Query;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockUnknownTable;
@@ -265,5 +267,27 @@ class IBlockTableTest extends IBlockTestCase
         $collection = ElementIBlockWithoutCollectionTable::wakeUpCollection($rows);
         $this->assertInstanceOf(Collection::class, $collection);
         $this->assertCount(3, $collection);
+    }
+
+    /**
+     * Тестирование query
+     *
+     * @depends testAdd
+     */
+    public function testQuery(): void
+    {
+        $query = ElementIBlockTable::query();
+        $this->assertInstanceOf(Query::class, $query);
+    }
+
+    /**
+     * Тестирование query
+     *
+     * @depends testAdd
+     */
+    public function testQueryWithoutObject(): void
+    {
+        $query = ElementIBlockWithoutObjectTable::query();
+        $this->assertInstanceOf(BitrixQuery::class, $query);
     }
 }

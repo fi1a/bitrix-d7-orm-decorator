@@ -21,10 +21,13 @@ use Bitrix\Main\ORM\Query\Result;
  * @method static getCollectionClassName(): string
  * @method static getObjectParentClass(): string
  * @method static getCollectionParentClass(): string
- * @method static getQueryClass(): string
  * @method static getEntityClass(): string
  * @method static getMap(): mixed[]
  * @method static setDefaultScope(\Bitrix\Main\ORM\Query\Query $query): \Bitrix\Main\ORM\Query\Query
+ * @method static getRowById(mixed $id): mixed[]|null
+ * @method static getRow(mixed[] $parameters): mixed[]|null
+ * @method static getCount(mixed[] $filter = [], mixed[] $cache = []): int
+ * @method static getQueryClass(): string;
  */
 abstract class ATableDecorator implements ITableDecorator
 {
@@ -180,6 +183,30 @@ abstract class ATableDecorator implements ITableDecorator
         }
 
         return $collection;
+    }
+
+    /**
+     * Creates and returns the Query object for the entity
+     *
+     * @return Query
+     */
+    public static function query()
+    {
+        $class = static::getTableClass();
+        /**
+         * @var \Bitrix\Main\ORM\Data\DataManager $class
+         */
+        $queryClass = static::getQueryClass();
+
+        if (!static::doGetEntityObjectDecoratorClass() || !static::doGetCollectionDecoratorClass()) {
+            return new $queryClass($class::getEntity());
+        }
+
+        return new Query(
+            $class::getEntity(),
+            static::doGetEntityObjectDecoratorClass(),
+            static::doGetCollectionDecoratorClass()
+        );
     }
 
     /**

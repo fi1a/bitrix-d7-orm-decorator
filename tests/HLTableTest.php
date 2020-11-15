@@ -6,8 +6,10 @@ namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
 use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
+use Bitrix\Main\ORM\Query\Query as BitrixQuery;
 use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
 use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
+use Fi1a\BitrixD7OrmDecorator\Query;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HL;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLWithoutCollectionTable;
@@ -250,5 +252,27 @@ class HLTableTest extends HLTestCase
         $collection = HLWithoutCollectionTable::wakeUpCollection($rows);
         $this->assertInstanceOf(Collection::class, $collection);
         $this->assertCount(3, $collection);
+    }
+
+    /**
+     * Тестирование query
+     *
+     * @depends testAdd
+     */
+    public function testQuery(): void
+    {
+        $query = HLTable::query();
+        $this->assertInstanceOf(Query::class, $query);
+    }
+
+    /**
+     * Тестирование query
+     *
+     * @depends testAdd
+     */
+    public function testQueryWithoutObject(): void
+    {
+        $query = HLWithoutObjectTable::query();
+        $this->assertInstanceOf(BitrixQuery::class, $query);
     }
 }
