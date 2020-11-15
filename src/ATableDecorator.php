@@ -8,7 +8,7 @@ use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Query\Result;
 
 /**
- * Декоратор Bitrix\Main\ORM\Data\DataManager
+ * Декоратор \Bitrix\Main\ORM\Data\DataManager
  *
  * @method static getEntity(): \Bitrix\Main\ORM\Entity
  * @method static unsetEntity(string $class): void
@@ -27,7 +27,16 @@ use Bitrix\Main\ORM\Query\Result;
  * @method static getRowById(mixed $id): mixed[]|null
  * @method static getRow(mixed[] $parameters): mixed[]|null
  * @method static getCount(mixed[] $filter = [], mixed[] $cache = []): int
- * @method static getQueryClass(): string;
+ * @method static getQueryClass(): string
+ * @method static checkFields(\Bitrix\Main\ORM\Data\Result $result, $primary, mixed[] $data): void
+ * @method static add(mixed[] $data): \Bitrix\Main\ORM\Data\AddResult
+ * @method static addMulti(mixed[] $rows, bool $ignoreEvents = false): \Bitrix\Main\ORM\Data\AddResult
+ * @method static update($primary, mixed[] $data): \Bitrix\Main\ORM\Data\UpdateResult
+ * @method static updateMulti(mixed[] $primaries, mixed[] $data, bool $ignoreEvents = false)
+ * : \Bitrix\Main\ORM\Data\UpdateResult
+ * @method static delete(mixed $primary): \Bitrix\Main\ORM\Data\DeleteResult
+ * @method static enableCrypto(string $field, string $table = null, bool $mode = true): void
+ * @method static cryptoEnabled(string $field, string $table = null): bool
  */
 abstract class ATableDecorator implements ITableDecorator
 {
