@@ -275,4 +275,26 @@ class HLTableTest extends HLTestCase
         $query = HLWithoutObjectTable::query();
         $this->assertInstanceOf(BitrixQuery::class, $query);
     }
+
+    /**
+     * Тестирование событий
+     *
+     * @depends testAdd
+     */
+    public function testBindEvents(): void
+    {
+        HLTable::bindEvents();
+        /**
+         * @var HL $item
+         */
+        $item = HLTable::createObject();
+        $item->set('UF_CODE', 'bind-events-1');
+        $result = $item->save();
+        $this->assertTrue($result->isSuccess());
+        $this->assertEquals('bind-events-1-onBeforeAdd', $item->get('UF_CODE'));
+        $item->set('UF_CODE', 'bind-events-1');
+        $result = $item->save();
+        $this->assertTrue($result->isSuccess());
+        $item->delete();
+    }
 }

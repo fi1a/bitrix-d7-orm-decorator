@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Fi1a\BitrixD7OrmDecorator;
 
+use Bitrix\Main\Entity\EventResult;
+use Bitrix\Main\EventManager;
+use Bitrix\Main\ORM\Event;
 use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Query\Result;
 
@@ -268,5 +271,140 @@ abstract class ATableDecorator implements ITableDecorator
     public static function resetState(): void
     {
         static::$tableClass = null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function bindEvents(): void
+    {
+        $eventManager = EventManager::getInstance();
+
+        $class = static::getTableClass();
+
+        $eventPart = substr($class, 0, -5);
+        if (substr($eventPart, 0, 1) !== '\\') {
+            $eventPart = '\\' . $eventPart;
+        }
+
+        $entity = $class::getEntity();
+
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onBeforeAdd',
+            [static::class, 'onBeforeAdd']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onAdd',
+            [static::class, 'onAdd']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onAfterAdd',
+            [static::class, 'onAfterAdd']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onBeforeUpdate',
+            [static::class, 'onBeforeUpdate']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onUpdate',
+            [static::class, 'onUpdate']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onAfterUpdate',
+            [static::class, 'onAfterUpdate']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onBeforeDelete',
+            [static::class, 'onBeforeDelete']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onDelete',
+            [static::class, 'onDelete']
+        );
+        $eventManager->addEventHandler(
+            $entity->getModule(),
+            $eventPart . '::onAfterDelete',
+            [static::class, 'onAfterDelete']
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onBeforeAdd(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onAdd(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onAfterAdd(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onBeforeUpdate(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onUpdate(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onAfterUpdate(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onBeforeDelete(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onDelete(Event $event): EventResult
+    {
+        return new EventResult();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function onAfterDelete(Event $event): EventResult
+    {
+        return new EventResult();
     }
 }

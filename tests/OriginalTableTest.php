@@ -267,4 +267,24 @@ class OriginalTableTest extends OriginalTestCase
         $query = OriginalDecoratorWithoutObjectTable::query();
         $this->assertInstanceOf(BitrixQuery::class, $query);
     }
+
+    /**
+     * Тестирование событий
+     */
+    public function testBindEvents(): void
+    {
+        OriginalDecoratorTable::bindEvents();
+        /**
+         * @var OriginalDecoratorEntityObject $item
+         */
+        $item = OriginalDecoratorTable::createObject();
+        $item->set('code', 'bind-events-1');
+        $result = $item->save();
+        $this->assertTrue($result->isSuccess());
+        $this->assertEquals('bind-events-1-onBeforeAdd', $item->get('code'));
+        $item->set('code', 'bind-events-1');
+        $result = $item->save();
+        $this->assertTrue($result->isSuccess());
+        $item->delete();
+    }
 }

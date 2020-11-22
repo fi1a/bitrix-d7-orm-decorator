@@ -290,4 +290,27 @@ class IBlockTableTest extends IBlockTestCase
         $query = ElementIBlockWithoutObjectTable::query();
         $this->assertInstanceOf(BitrixQuery::class, $query);
     }
+
+    /**
+     * Тестирование событий
+     *
+     * @depends testAdd
+     */
+    public function testBindEvents(): void
+    {
+        ElementIBlockTable::bindEvents();
+        /**
+         * @var ElementIBlock $item
+         */
+        $item = ElementIBlockTable::createObject();
+        $item->set('CODE', 'bind-events-1');
+        $item->set('NAME', 'bind-events-1');
+        $result = $item->save();
+        $this->assertTrue($result->isSuccess());
+        $this->assertEquals('bind-events-1-onBeforeAdd', $item->get('CODE'));
+        $item->set('CODE', 'bind-events-1');
+        $result = $item->save();
+        $this->assertTrue($result->isSuccess());
+        //$item->delete();
+    }
 }
