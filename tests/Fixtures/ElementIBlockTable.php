@@ -31,7 +31,7 @@ class ElementIBlockTable extends AIBlockTableDecorator
     /**
      * @inheritDoc
      */
-    protected static function doGetEntityObjectDecoratorClass(): ?string
+    protected static function doGetObjectDecoratorClass(): ?string
     {
         return ElementIBlock::class;
     }

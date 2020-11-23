@@ -34,7 +34,7 @@ class HLTable extends AHLTableDecorator
     /**
      * @inheritDoc
      */
-    protected static function doGetEntityObjectDecoratorClass(): ?string
+    protected static function doGetObjectDecoratorClass(): ?string
     {
         return HL::class;
     }

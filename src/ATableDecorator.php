@@ -51,7 +51,7 @@ abstract class ATableDecorator implements ITableDecorator
     /**
      * Возвращает класс объекта
      */
-    protected static function doGetEntityObjectDecoratorClass(): ?string
+    protected static function doGetObjectDecoratorClass(): ?string
     {
         return null;
     }
@@ -122,7 +122,7 @@ abstract class ATableDecorator implements ITableDecorator
          * @var \Bitrix\Main\ORM\Data\DataManager $class
          */
         $object = $class::createObject($setDefaultValues);
-        $decoratorClass = static::doGetEntityObjectDecoratorClass();
+        $decoratorClass = static::doGetObjectDecoratorClass();
         if ($decoratorClass) {
             return new $decoratorClass($object);
         }
@@ -167,7 +167,7 @@ abstract class ATableDecorator implements ITableDecorator
          * @var \Bitrix\Main\ORM\Data\DataManager $class
          */
         $object = $class::getEntity()->wakeUpObject($row);
-        $decoratorClass = static::doGetEntityObjectDecoratorClass();
+        $decoratorClass = static::doGetObjectDecoratorClass();
         if ($decoratorClass) {
             return new $decoratorClass($object);
         }
@@ -210,13 +210,13 @@ abstract class ATableDecorator implements ITableDecorator
          */
         $queryClass = static::getQueryClass();
 
-        if (!static::doGetEntityObjectDecoratorClass() || !static::doGetCollectionDecoratorClass()) {
+        if (!static::doGetObjectDecoratorClass() || !static::doGetCollectionDecoratorClass()) {
             return new $queryClass($class::getEntity());
         }
 
         return new Query(
             $class::getEntity(),
-            static::doGetEntityObjectDecoratorClass(),
+            static::doGetObjectDecoratorClass(),
             static::doGetCollectionDecoratorClass()
         );
     }
@@ -242,13 +242,13 @@ abstract class ATableDecorator implements ITableDecorator
      */
     public static function getResultDecorator(Result $result)
     {
-        if (!static::doGetEntityObjectDecoratorClass() || !static::doGetCollectionDecoratorClass()) {
+        if (!static::doGetObjectDecoratorClass() || !static::doGetCollectionDecoratorClass()) {
             return $result;
         }
 
         return new ResultDecorator(
             $result,
-            static::doGetEntityObjectDecoratorClass(),
+            static::doGetObjectDecoratorClass(),
             static::doGetCollectionDecoratorClass()
         );
     }

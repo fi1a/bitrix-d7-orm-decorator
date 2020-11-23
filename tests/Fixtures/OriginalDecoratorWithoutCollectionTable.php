@@ -27,7 +27,7 @@ class OriginalDecoratorWithoutCollectionTable extends ATableDecorator
     /**
      * @inheritDoc
      */
-    protected static function doGetEntityObjectDecoratorClass(): ?string
+    protected static function doGetObjectDecoratorClass(): ?string
     {
         return OriginalDecoratorObject::class;
     }
