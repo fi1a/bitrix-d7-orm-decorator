@@ -311,6 +311,6 @@ class IBlockTableTest extends IBlockTestCase
         $item->set('CODE', 'bind-events-1');
         $result = $item->save();
         $this->assertTrue($result->isSuccess());
-        //$item->delete();
+        $item->delete();
     }
 }
