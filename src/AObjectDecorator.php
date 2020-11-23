@@ -38,7 +38,7 @@ abstract class AObjectDecorator implements IObjectDecorator
     /**
      * Возвращает класс объекта
      */
-    abstract protected function getEntityObjectClass(): string;
+    abstract protected function getObjectClass(): string;
 
     /**
      * Конструктор
@@ -73,7 +73,7 @@ abstract class AObjectDecorator implements IObjectDecorator
      */
     public static function __callStatic(string $name, array $arguments)
     {
-        $class = static::getEntityObjectClass();
+        $class = static::getObjectClass();
 
         return call_user_func_array([$class, $name], $arguments);
     }
@@ -85,7 +85,7 @@ abstract class AObjectDecorator implements IObjectDecorator
      */
     public static function wakeUp(array $row): self
     {
-        $class = static::getEntityObjectClass();
+        $class = static::getObjectClass();
         $object = $class::wakeUp($row);
 
         return new static($object);

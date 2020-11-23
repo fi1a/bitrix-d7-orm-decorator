@@ -14,7 +14,7 @@ class OriginalDecoratorObject extends AObjectDecorator
     /**
      * @inheritDoc
      */
-    protected function getEntityObjectClass(): string
+    protected function getObjectClass(): string
     {
         return OriginalObject::class;
     }

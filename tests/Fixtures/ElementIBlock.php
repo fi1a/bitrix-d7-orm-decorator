@@ -15,7 +15,7 @@ class ElementIBlock extends AObjectDecorator
     /**
      * @inheritDoc
      */
-    protected function getEntityObjectClass(): string
+    protected function getObjectClass(): string
     {
         return EO_ElementIBlock::class;
     }
