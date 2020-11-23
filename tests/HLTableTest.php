@@ -8,7 +8,7 @@ use Bitrix\Main\ORM\Objectify\Collection;
 use Bitrix\Main\ORM\Objectify\EntityObject;
 use Bitrix\Main\ORM\Query\Query as BitrixQuery;
 use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
-use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
+use Fi1a\BitrixD7OrmDecorator\IObjectDecorator;
 use Fi1a\BitrixD7OrmDecorator\Query;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HL;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
@@ -153,7 +153,7 @@ class HLTableTest extends HLTestCase
      */
     public function testCreateObject(): void
     {
-        $this->assertInstanceOf(IEntityObjectDecorator::class, HLTable::createObject());
+        $this->assertInstanceOf(IObjectDecorator::class, HLTable::createObject());
         $this->assertInstanceOf(EntityObject::class, HLWithoutObjectTable::createObject());
     }
 
@@ -193,7 +193,7 @@ class HLTableTest extends HLTestCase
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $row = $iterator->fetch();
         $item = HLTable::wakeUpObject($row);
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
         $this->assertEquals('element-2', $item->get('UF_CODE'));
     }
 

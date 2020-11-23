@@ -7,7 +7,7 @@ namespace Fi1a\Unit\BitrixD7OrmDecorator;
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\NotImplementedException;
 use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
-use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
+use Fi1a\BitrixD7OrmDecorator\IObjectDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
@@ -131,7 +131,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(3, $collection);
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
         $collection->remove($item);
         $this->assertCount(2, $collection);
     }
@@ -154,7 +154,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertInstanceOf(ICollectionDecorator::class, $collection);
         $this->assertCount(3, $collection);
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
         $collection->remove($item);
         $this->assertCount(2, $collection);
         $collection->add($item);
@@ -234,7 +234,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         $collection = $iterator->fetchCollection();
         $this->assertEquals(3, $collection->count());
         foreach ($collection as $item) {
-            $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+            $this->assertInstanceOf(IObjectDecorator::class, $item);
         }
         $this->assertNull($collection->key());
         $collection->rewind();
@@ -257,7 +257,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         $this->assertEquals(3, $iterator->getSelectedRowsCount());
         $collection = $iterator->fetchCollection();
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
         $this->assertEquals('element-2', $item->get('CODE'));
         $this->assertNull($collection->getFirstOccurrence('CODE', 'not-exists'));
     }
@@ -336,7 +336,7 @@ class CollectionDecoratorTest extends IBlockTestCase
         $collection = $iterator->fetchCollection();
         $item = $collection->getFirstOccurrence('CODE', 'element-2');
         $this->assertInstanceOf(
-            IEntityObjectDecorator::class,
+            IObjectDecorator::class,
             $collection->getByPrimary($item->get('ID'))
         );
         $this->assertFalse($collection->hasByPrimary('unknown'));

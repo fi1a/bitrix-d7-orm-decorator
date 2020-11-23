@@ -16,7 +16,7 @@ class OriginalDecoratorCollection extends ACollectionDecorator
      */
     protected static function doGetEntityObjectDecoratorClass(): string
     {
-        return OriginalDecoratorEntityObject::class;
+        return OriginalDecoratorObject::class;
     }
 
     /**

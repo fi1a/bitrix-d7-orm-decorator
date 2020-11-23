@@ -9,7 +9,7 @@ use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
 
 /**
- * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\AEntityObjectDecorator
+ * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\AObjectDecorator
  */
 class IBlockEntityObjectTest extends IBlockTestCase
 {

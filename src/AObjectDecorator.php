@@ -28,7 +28,7 @@ use Bitrix\Main\ORM\Objectify\EntityObject;
  * @method removeAll(string $fieldName): mixed
  * @method defineAuthContext(\Bitrix\Main\Authentication\Context $authContext): void
  */
-abstract class AEntityObjectDecorator implements IEntityObjectDecorator
+abstract class AObjectDecorator implements IObjectDecorator
 {
     /**
      * @var EntityObject

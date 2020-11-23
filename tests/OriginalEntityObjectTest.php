@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
-use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorEntityObject;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\OriginalTestCase;
 
 /**
- * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\AEntityObjectDecorator
+ * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\AObjectDecorator
  */
 class OriginalEntityObjectTest extends OriginalTestCase
 {
@@ -28,10 +28,10 @@ class OriginalEntityObjectTest extends OriginalTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         /**
-         * @var OriginalDecoratorEntityObject $item
+         * @var OriginalDecoratorObject $item
          */
         $item = $iterator->fetchObject();
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $item);
         $this->assertEquals('element-2', $item->get('code'));
     }
 
@@ -42,7 +42,7 @@ class OriginalEntityObjectTest extends OriginalTestCase
      */
     public function testCallStatic(): void
     {
-        $this->assertEquals('Code', OriginalDecoratorEntityObject::sysFieldToMethodCase('code'));
+        $this->assertEquals('Code', OriginalDecoratorObject::sysFieldToMethodCase('code'));
     }
 
     /**
@@ -64,10 +64,10 @@ class OriginalEntityObjectTest extends OriginalTestCase
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $row = $iterator->fetch();
         /**
-         * @var OriginalDecoratorEntityObject $item
+         * @var OriginalDecoratorObject $item
          */
-        $item = OriginalDecoratorEntityObject::wakeUp($row);
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $item = OriginalDecoratorObject::wakeUp($row);
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $item);
         $this->assertEquals('element-2', $item->get('code'));
     }
 
@@ -89,10 +89,10 @@ class OriginalEntityObjectTest extends OriginalTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         /**
-         * @var OriginalDecoratorEntityObject $item
+         * @var OriginalDecoratorObject $item
          */
         $item = $iterator->fetchObject();
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $item);
         $this->assertTrue(isset($item['code']));
         $this->assertFalse(isset($item['unknown']));
     }
@@ -115,10 +115,10 @@ class OriginalEntityObjectTest extends OriginalTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         /**
-         * @var OriginalDecoratorEntityObject $item
+         * @var OriginalDecoratorObject $item
          */
         $item = $iterator->fetchObject();
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $item);
         $this->assertEquals('element-2', $item['code']);
     }
 
@@ -140,10 +140,10 @@ class OriginalEntityObjectTest extends OriginalTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         /**
-         * @var OriginalDecoratorEntityObject $item
+         * @var OriginalDecoratorObject $item
          */
         $item = $iterator->fetchObject();
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $item);
         $this->assertEquals('element-2', $item['code']);
         $item['code'] = 'new-value';
         $this->assertEquals('new-value', $item['code']);
@@ -167,10 +167,10 @@ class OriginalEntityObjectTest extends OriginalTestCase
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         /**
-         * @var OriginalDecoratorEntityObject $item
+         * @var OriginalDecoratorObject $item
          */
         $item = $iterator->fetchObject();
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $item);
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $item);
         $this->assertEquals('element-2', $item['code']);
         unset($item['code']);
         $this->assertNull($item['code']);

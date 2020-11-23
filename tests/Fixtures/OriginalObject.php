@@ -9,7 +9,7 @@ use Bitrix\Main\ORM\Objectify\EntityObject;
 /**
  * 1С-Битрикс D7 ORM объект
  */
-class OriginalEntityObject extends EntityObject
+class OriginalObject extends EntityObject
 {
     public static $dataClass = OriginalTable::class;
 }

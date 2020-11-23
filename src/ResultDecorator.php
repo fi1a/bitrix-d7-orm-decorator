@@ -72,7 +72,7 @@ class ResultDecorator implements IResultDecorator
     /**
      * Вернуть объект
      */
-    public function fetchObject(): ?IEntityObjectDecorator
+    public function fetchObject(): ?IObjectDecorator
     {
         $object = $this->result->fetchObject();
 
@@ -100,10 +100,10 @@ class ResultDecorator implements IResultDecorator
     /**
      * Добавляет объект в коллекцию
      */
-    protected function sysAddActual(ICollectionDecorator $collection, IEntityObjectDecorator $object): void
+    protected function sysAddActual(ICollectionDecorator $collection, IObjectDecorator $object): void
     {
         $sysAddActual = Closure::bind(
-            function (IEntityObjectDecorator $object): void {
+            function (IObjectDecorator $object): void {
                 $primary = $this->sysSerializePrimaryKey($object->primary);
                 $this->_objects[$primary] = $object;
             },

@@ -42,6 +42,6 @@ class OriginalTable extends DataManager
      */
     public static function getObjectClass()
     {
-        return OriginalEntityObject::class;
+        return OriginalObject::class;
     }
 }

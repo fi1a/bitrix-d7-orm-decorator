@@ -31,7 +31,7 @@ class OriginalDecoratorTable extends ATableDecorator
      */
     protected static function doGetEntityObjectDecoratorClass(): ?string
     {
-        return OriginalDecoratorEntityObject::class;
+        return OriginalDecoratorObject::class;
     }
 
     /**

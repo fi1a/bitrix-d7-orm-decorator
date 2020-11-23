@@ -9,7 +9,7 @@ use Bitrix\Main\ORM\Objectify\EntityObject;
 /**
  * Интерфейс декоратора \Bitrix\Main\ORM\Objectify\EntityObject
  */
-interface IEntityObjectDecorator extends \ArrayAccess
+interface IObjectDecorator extends \ArrayAccess
 {
     /**
      * Возвращает объект Bitrix\Main\ORM\Objectify\EntityObject

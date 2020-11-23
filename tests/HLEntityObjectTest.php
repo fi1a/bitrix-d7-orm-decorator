@@ -9,7 +9,7 @@ use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\HLTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\HLTestCase;
 
 /**
- * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\AEntityObjectDecorator для highloadblock orm
+ * Тестирование декоратора Fi1a\BitrixD7OrmDecorator\AObjectDecorator для highloadblock orm
  */
 class HLEntityObjectTest extends HLTestCase
 {

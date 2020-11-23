@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
 use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
-use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
+use Fi1a\BitrixD7OrmDecorator\IObjectDecorator;
 use Fi1a\BitrixD7OrmDecorator\IResultDecorator;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\IBlockTestCase;
@@ -33,7 +33,7 @@ class QueryTest extends IBlockTestCase
             ->exec();
         $this->assertInstanceOf(IResultDecorator::class, $result);
         $item = $result->fetchObject();
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
     }
 
     /**
@@ -90,7 +90,7 @@ class QueryTest extends IBlockTestCase
             ])
             ->setSelect(['*'])
             ->fetchObject();
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
     }
 
     /**

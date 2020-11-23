@@ -9,7 +9,7 @@ use Bitrix\Main\ORM\Objectify\EntityObject;
 use Bitrix\Main\ORM\Query\Query as BitrixQuery;
 use Fi1a\BitrixD7OrmDecorator\Exception\ErrorException;
 use Fi1a\BitrixD7OrmDecorator\ICollectionDecorator;
-use Fi1a\BitrixD7OrmDecorator\IEntityObjectDecorator;
+use Fi1a\BitrixD7OrmDecorator\IObjectDecorator;
 use Fi1a\BitrixD7OrmDecorator\Query;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlock;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\ElementIBlockTable;
@@ -168,7 +168,7 @@ class IBlockTableTest extends IBlockTestCase
      */
     public function testCreateObject(): void
     {
-        $this->assertInstanceOf(IEntityObjectDecorator::class, ElementIBlockTable::createObject());
+        $this->assertInstanceOf(IObjectDecorator::class, ElementIBlockTable::createObject());
         $this->assertInstanceOf(EntityObject::class, ElementIBlockWithoutObjectTable::createObject());
     }
 
@@ -208,7 +208,7 @@ class IBlockTableTest extends IBlockTestCase
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
         $row = $iterator->fetch();
         $item = ElementIBlockTable::wakeUpObject($row);
-        $this->assertInstanceOf(IEntityObjectDecorator::class, $item);
+        $this->assertInstanceOf(IObjectDecorator::class, $item);
         $this->assertEquals('element-2', $item->get('CODE'));
     }
 

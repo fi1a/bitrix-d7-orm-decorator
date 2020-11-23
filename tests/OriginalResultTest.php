@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Fi1a\Unit\BitrixD7OrmDecorator;
 
-use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorEntityObject;
+use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorObject;
 use Fi1a\Unit\BitrixD7OrmDecorator\Fixtures\OriginalDecoratorTable;
 use Fi1a\Unit\BitrixD7OrmDecorator\TestCase\OriginalTestCase;
 
@@ -56,6 +56,6 @@ class OriginalResultTest extends OriginalTestCase
             'limit' => 1,
         ]);
         $this->assertEquals(1, $iterator->getSelectedRowsCount());
-        $this->assertInstanceOf(OriginalDecoratorEntityObject::class, $iterator->fetchObject());
+        $this->assertInstanceOf(OriginalDecoratorObject::class, $iterator->fetchObject());
     }
 }

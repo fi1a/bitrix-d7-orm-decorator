@@ -14,8 +14,8 @@ use Closure;
  * Декоратор \Bitrix\Main\ORM\Objectify\Collection
  *
  * @method hasByPrimary($primary): bool
- * @method getByPrimary($primary): IEntityObjectDecorator|false
- * @method getAll(): IEntityObjectDecorator[]
+ * @method getByPrimary($primary): IObjectDecorator|false
+ * @method getAll(): IObjectDecorator[]
  * @method removeByPrimary($primary): void
  * @method save(bool $ignoreEvents = false): \Bitrix\Main\ORM\Data\UpdateResult|\Bitrix\Main\ORM\Data\AddResult
  */
@@ -73,10 +73,10 @@ abstract class ACollectionDecorator implements ICollectionDecorator
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\SystemException
      */
-    public function add(IEntityObjectDecorator $object): void
+    public function add(IObjectDecorator $object): void
     {
         $add = Closure::bind(
-            function (IEntityObjectDecorator $object) {
+            function (IObjectDecorator $object) {
                 // check object class
                 $entityObject = $object->getEntityObject();
 
@@ -126,7 +126,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\SystemException
      */
-    public function has(IEntityObjectDecorator $object): bool
+    public function has(IObjectDecorator $object): bool
     {
         return $this->collection->has($object->getEntityObject());
     }
@@ -137,7 +137,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
      * @throws \Bitrix\Main\ArgumentException
      * @throws \Bitrix\Main\SystemException
      */
-    public function remove(IEntityObjectDecorator $object): void
+    public function remove(IObjectDecorator $object): void
     {
         $this->collection->remove($object->getEntityObject());
     }
@@ -174,7 +174,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
     public static function wakeUp(array $rows): ICollectionDecorator
     {
         /**
-         * @var IEntityObjectDecorator $objectClass
+         * @var IObjectDecorator $objectClass
          */
         $objectClass = static::doGetEntityObjectDecoratorClass();
         /**
@@ -193,7 +193,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
         $originalCollection = $getCollection($collection);
 
         $sysAddActual = Closure::bind(
-            function (IEntityObjectDecorator $object) {
+            function (IObjectDecorator $object) {
                 $this->_objects[$this->sysGetPrimaryKey($object->getEntityObject())] = $object;
             },
             $originalCollection,
@@ -313,7 +313,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
     /**
      * @inheritDoc
      */
-    public function getFirstOccurrence(string $fieldName, $value): ?IEntityObjectDecorator
+    public function getFirstOccurrence(string $fieldName, $value): ?IObjectDecorator
     {
         foreach ($this as $object) {
             if ($object->get($fieldName) === $value) {
@@ -327,7 +327,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
     /**
      * Возвращает объекты из коллекции
      *
-     * @return IEntityObjectDecorator[]|EntityObject[]
+     * @return IObjectDecorator[]|EntityObject[]
      */
     protected function getObjects(): array
     {
@@ -345,7 +345,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
     /**
      * Устанавливает объекты коллекции
      *
-     * @param IEntityObjectDecorator[]|EntityObject[] $objects
+     * @param IObjectDecorator[]|EntityObject[] $objects
      */
     protected function setObjects(array $objects): void
     {

@@ -21,5 +21,5 @@ interface ICollectionDecorator extends \ArrayAccess, \Iterator, \Countable
      *
      * @param mixed $value
      */
-    public function getFirstOccurrence(string $fieldName, $value): ?IEntityObjectDecorator;
+    public function getFirstOccurrence(string $fieldName, $value): ?IObjectDecorator;
 }

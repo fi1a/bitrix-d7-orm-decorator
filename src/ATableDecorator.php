@@ -113,7 +113,7 @@ abstract class ATableDecorator implements ITableDecorator
     /**
      * Возвращает объект
      *
-     * @return IEntityObjectDecorator|\Bitrix\Main\ORM\Objectify\EntityObject
+     * @return IObjectDecorator|\Bitrix\Main\ORM\Objectify\EntityObject
      */
     public static function createObject(bool $setDefaultValues = true)
     {
@@ -158,7 +158,7 @@ abstract class ATableDecorator implements ITableDecorator
      *
      * @param mixed[] $row
      *
-     * @return IEntityObjectDecorator|\Bitrix\Main\ORM\Objectify\EntityObject
+     * @return IObjectDecorator|\Bitrix\Main\ORM\Objectify\EntityObject
      */
     public static function wakeUpObject(array $row)
     {
