@@ -29,7 +29,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
     /**
      * Возвращает класс объекта
      */
-    abstract protected static function doGetEntityObjectDecoratorClass(): string;
+    abstract protected static function doGetObjectDecoratorClass(): string;
 
     /**
      * Возвращает класс таблицы
@@ -176,7 +176,7 @@ abstract class ACollectionDecorator implements ICollectionDecorator
         /**
          * @var IObjectDecorator $objectClass
          */
-        $objectClass = static::doGetEntityObjectDecoratorClass();
+        $objectClass = static::doGetObjectDecoratorClass();
         /**
          * @var ITableDecorator $tableClass
          */

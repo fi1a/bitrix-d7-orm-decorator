@@ -14,7 +14,7 @@ class ElementIBlockCollection extends ACollectionDecorator
     /**
      * @inheritDoc
      */
-    protected static function doGetEntityObjectDecoratorClass(): string
+    protected static function doGetObjectDecoratorClass(): string
     {
         return ElementIBlock::class;
     }
