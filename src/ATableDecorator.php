@@ -13,33 +13,32 @@ use Bitrix\Main\ORM\Query\Result;
 /**
  * Декоратор \Bitrix\Main\ORM\Data\DataManager
  *
- * @method static getEntity(): \Bitrix\Main\ORM\Entity
- * @method static unsetEntity(string $class): void
- * @method static getTableName(): ?string
- * @method static getConnectionName(): string
- * @method static getTitle(): ?string
- * @method static getObjectClass(): string|\Bitrix\Main\ORM\Objectify\EntityObject
- * @method static getObjectClassName(): string
- * @method static getCollectionClass(): string
- * @method static getCollectionClassName(): string
- * @method static getObjectParentClass(): string
- * @method static getCollectionParentClass(): string
- * @method static getEntityClass(): string
- * @method static getMap(): mixed[]
- * @method static setDefaultScope(\Bitrix\Main\ORM\Query\Query $query): \Bitrix\Main\ORM\Query\Query
- * @method static getRowById(mixed $id): mixed[]|null
- * @method static getRow(mixed[] $parameters): mixed[]|null
- * @method static getCount(mixed[] $filter = [], mixed[] $cache = []): int
- * @method static getQueryClass(): string
- * @method static checkFields(\Bitrix\Main\ORM\Data\Result $result, $primary, mixed[] $data): void
- * @method static add(mixed[] $data): \Bitrix\Main\ORM\Data\AddResult
- * @method static addMulti(mixed[] $rows, bool $ignoreEvents = false): \Bitrix\Main\ORM\Data\AddResult
- * @method static update($primary, mixed[] $data): \Bitrix\Main\ORM\Data\UpdateResult
- * @method static updateMulti(mixed[] $primaries, mixed[] $data, bool $ignoreEvents = false)
- * : \Bitrix\Main\ORM\Data\UpdateResult
- * @method static delete(mixed $primary): \Bitrix\Main\ORM\Data\DeleteResult
- * @method static enableCrypto(string $field, string $table = null, bool $mode = true): void
- * @method static cryptoEnabled(string $field, string $table = null): bool
+ * @method static \Bitrix\Main\ORM\Entity getEntity()
+ * @method static void unsetEntity(string $class)
+ * @method static string|null getTableName()
+ * @method static string getConnectionName()
+ * @method static string|null getTitle()
+ * @method static string|\Bitrix\Main\ORM\Objectify\EntityObject getObjectClass()
+ * @method static string getObjectClassName()
+ * @method static string getCollectionClass()
+ * @method static string getCollectionClassName()
+ * @method static string getObjectParentClass()
+ * @method static string getCollectionParentClass()
+ * @method static string getEntityClass()
+ * @method static mixed[] getMap()
+ * @method static \Bitrix\Main\ORM\Query\Query setDefaultScope(\Bitrix\Main\ORM\Query\Query $query)
+ * @method static mixed[]|null getRowById(mixed $id)
+ * @method static mixed[]|null getRow(mixed[] $parameters)
+ * @method static int getCount(mixed[] $filter = [], mixed[] $cache = [])
+ * @method static string getQueryClass()
+ * @method static void checkFields(\Bitrix\Main\ORM\Data\Result $result, $primary, mixed[] $data)
+ * @method static \Bitrix\Main\ORM\Data\AddResult add(mixed[] $data)
+ * @method static \Bitrix\Main\ORM\Data\AddResult addMulti(mixed[] $rows, bool $ignoreEvents = false)
+ * @method static \Bitrix\Main\ORM\Data\UpdateResult update($primary, mixed[] $data)
+ * @method static \Bitrix\Main\ORM\Data\UpdateResult updateMulti(mixed[] $primaries, $data, bool $ignoreEvents = false)
+ * @method static \Bitrix\Main\ORM\Data\DeleteResult delete(mixed $primary)
+ * @method static void enableCrypto(string $field, string $table = null, bool $mode = true)
+ * @method static bool cryptoEnabled(string $field, string $table = null)
  */
 abstract class ATableDecorator implements ITableDecorator
 {

@@ -13,11 +13,11 @@ use Closure;
 /**
  * Декоратор \Bitrix\Main\ORM\Objectify\Collection
  *
- * @method hasByPrimary($primary): bool
- * @method getByPrimary($primary): IObjectDecorator|false
- * @method getAll(): IObjectDecorator[]
- * @method removeByPrimary($primary): void
- * @method save(bool $ignoreEvents = false): \Bitrix\Main\ORM\Data\UpdateResult|\Bitrix\Main\ORM\Data\AddResult
+ * @method bool hasByPrimary($primary)
+ * @method IObjectDecorator|false getByPrimary($primary)
+ * @method IObjectDecorator[] getAll()
+ * @method void removeByPrimary($primary)
+ * @method \Bitrix\Main\ORM\Data\UpdateResult|\Bitrix\Main\ORM\Data\AddResult save(bool $ignoreEvents = false)
  */
 abstract class ACollectionDecorator implements ICollectionDecorator
 {

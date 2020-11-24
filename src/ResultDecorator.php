@@ -10,25 +10,25 @@ use Closure;
 /**
  * Декоратор \Bitrix\Main\ORM\Query\Result
  *
- * @method setHiddenObjectFields(string[] $hiddenObjectFields): void
- * @method getFields(): \Bitrix\Main\ORM\Fields\ScalarField[]
- * @method getSelectedRowsCount(): int
- * @method setIdentityMap(\Bitrix\Main\ORM\Objectify\IdentityMap $map): self
- * @method getIdentityMap(): \Bitrix\Main\ORM\Objectify\IdentityMap
- * @method getResource(): null|resource
- * @method setReplacedAliases(string[] $replacedAliases): void
- * @method addReplacedAliases(string[] $replacedAliases): void
- * @method setSerializedFields(mixed[] $serializedFields): void
- * @method addFetchDataModifier($fetchDataModifier): void
- * @method fetchRaw(): mixed[]|false
- * @method fetch(): mixed[]|false
- * @method fetchAll(): mixed[]
- * @method getTrackerQuery(): \Bitrix\Main\Diag\SqlTrackerQuery|null
- * @method getConverters(): callable[]
- * @method setConverters(callable[] $converters): void
- * @method setCount(int $n): void
- * @method getCount(): int
- * @method getIterator(): \Traversable
+ * @method void setHiddenObjectFields(string[] $hiddenObjectFields)
+ * @method \Bitrix\Main\ORM\Fields\ScalarField[] getFields()
+ * @method int getSelectedRowsCount()
+ * @method self setIdentityMap(\Bitrix\Main\ORM\Objectify\IdentityMap $map)
+ * @method \Bitrix\Main\ORM\Objectify\IdentityMap getIdentityMap()
+ * @method resource|null getResource()
+ * @method void setReplacedAliases(string[] $replacedAliases)
+ * @method void addReplacedAliases(string[] $replacedAliases)
+ * @method void setSerializedFields(mixed[] $serializedFields)
+ * @method void addFetchDataModifier($fetchDataModifier)
+ * @method mixed[]|false fetchRaw()
+ * @method mixed[]|false fetch()
+ * @method mixed[] fetchAll()
+ * @method \Bitrix\Main\Diag\SqlTrackerQuery|null getTrackerQuery()
+ * @method callable[] getConverters()
+ * @method void setConverters(callable[] $converters)
+ * @method void setCount(int $n)
+ * @method int getCount()
+ * @method \Traversable getIterator()
  */
 class ResultDecorator implements IResultDecorator
 {
@@ -70,7 +70,7 @@ class ResultDecorator implements IResultDecorator
     }
 
     /**
-     * Вернуть объект
+     * @inheritDoc
      */
     public function fetchObject(): ?IObjectDecorator
     {
@@ -84,7 +84,7 @@ class ResultDecorator implements IResultDecorator
     }
 
     /**
-     * Вернуть коллекцию
+     * @inheritDoc
      */
     public function fetchCollection(): ICollectionDecorator
     {
