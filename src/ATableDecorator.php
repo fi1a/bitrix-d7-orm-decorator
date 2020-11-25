@@ -235,7 +235,7 @@ abstract class ATableDecorator implements ITableDecorator
     }
 
     /**
-     * Фабричный метод для прокси результатов
+     * Фабричный метод для результатов
      *
      * @return IResultDecorator|Result
      */

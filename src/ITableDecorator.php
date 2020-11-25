@@ -50,7 +50,7 @@ interface ITableDecorator
     public static function bindEvents(): void;
 
     /**
-     * Событие до дабавления
+     * Событие до добавления
      */
     public static function onBeforeAdd(Event $event): EventResult;
 
